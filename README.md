@@ -2,6 +2,7 @@
 
 ## 원격 레포지토리를 받는 방법
 git clone "깃허브 주소"
+<img width="1272" height="909" alt="image" src="https://github.com/user-attachments/assets/a60812db-2313-422e-8656-103a90f4ac4c" />
 
 
 ## Available Scripts
