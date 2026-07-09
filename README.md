@@ -28,9 +28,10 @@ git push origin --delete master - 연결한 원격 레포지토리 삭제 <br>
 ### git clone "깃허브 주소"
 <img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/a60812db-2313-422e-8656-103a90f4ac4c" />
 
-1. git clone https://github.com/KoreanICT/projectFront.git 을 적당한 파일 위치에서 실행
+1. git clone https://github.com/KoreanICT/projectFront.git 을 적당한 파일 위치에서 입력한다
 <img width="800" height="230" alt="image" src="https://github.com/user-attachments/assets/631450dd-9a97-4bf5-8578-e2533995c4dc" />
-
+<br>
+2. VSCODE 혹은 스프링 부트에서 작업을 시작한다
 
 
 ## VSCODE 작업 방법
