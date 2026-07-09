@@ -1,7 +1,7 @@
 # 프로젝트 프론트 원격 레포지토리
 
 ## git 관련 명령어 정리
-### 깃 환경설정 명령어 (CMD에서 사용)
+### 깃허브 환경설정 명령어 (CMD에서 사용)
 git config --global user.name "계정명" <br>
 git config --global user.email "계정가입 이메일" <br>
 <img width="800" height="200" alt="image" src="https://github.com/user-attachments/assets/daaaba05-2e86-4a50-806e-4a01fb5b6cdf" /> <br>
@@ -28,4 +28,17 @@ git push origin --delete master - 연결한 원격 레포지토리 삭제 <br>
 ### git clone "깃허브 주소"
 <img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/a60812db-2313-422e-8656-103a90f4ac4c" />
 
+1. git clone https://github.com/KoreanICT/projectFront.git 을 적당한 파일 위치에서 입력한다
+<img width="800" height="230" alt="image" src="https://github.com/user-attachments/assets/631450dd-9a97-4bf5-8578-e2533995c4dc" />
+<br>
+2. VSCODE 혹은 스프링 부트에서 작업을 시작한다
 
+
+## VSCODE 작업 방법
+1. clone 받은 폴더 VSCODE로 열기
+2. 자신이 담당한 코드를 작업한다
+3. 코드 작업 이후 터미널창을 연다
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/3a33c323-50af-4368-b2a7-1649c6c96749" />
+
+4. 팀장에게 얘기하고 문제 없으면 git pull origin master로 재반영
+5.  2~4를 반복
