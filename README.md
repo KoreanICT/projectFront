@@ -1,7 +1,7 @@
 # 프로젝트 프론트 원격 레포지토리
 
 ## git 관련 명령어 정리
-### 깃 환경설정 명령어 (CMD에서 사용)
+### 깃허브 환경설정 명령어 (CMD에서 사용)
 git config --global user.name "계정명" <br>
 git config --global user.email "계정가입 이메일" <br>
 <img width="800" height="200" alt="image" src="https://github.com/user-attachments/assets/daaaba05-2e86-4a50-806e-4a01fb5b6cdf" /> <br>
