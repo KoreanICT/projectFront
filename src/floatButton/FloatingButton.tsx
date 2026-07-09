@@ -4,7 +4,7 @@ import style from "./floatingButton.module.css";
 const FloatingButton = () => {
     return (
         <div className={style.floatingContainer}>
-            <Link to="/문의페이지" className={style.floatingButton}>
+            <Link to="/inquiry" className={style.floatingButton}>
                 문의
             </Link>
 

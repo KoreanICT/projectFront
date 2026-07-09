@@ -1,6 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../cont/Home'
+import Community from '../cont/community/Community'
+import Inquiry from '../cont/inquiry/Inquiry'
+import Management from '../cont/management/Management'
+import Member from '../cont/member/Member'
+import Notice from '../cont/notice/Notice'
+import Order from '../cont/order/Order'
+import Revenue from '../cont/revenue/Revenue'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -32,6 +39,25 @@ const AppRoutes: React.FC = () => {
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
         { path: '/', element: <Home />},
+
+
+        { path: '/community', element: <Community />},
+
+
+        { path: '/management', element: <Management />},
+
+
+        { path: '/member', element: <Member />},
+
+
+        { path: '/notice', element: <Notice />},
+
+
+        { path: '/order', element: <Order />},
+
+
+        { path: '/revenue', element: <Revenue />},
+
 
     ]
     return (

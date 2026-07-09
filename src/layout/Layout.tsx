@@ -25,9 +25,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             }}>
                 <h1>프로젝트</h1>
                 <div>
-                    <a href="/login" style={{ marginRight: "10px" }}>로그인</a>
+                    <a href="/member" style={{ marginRight: "10px" }}>로그인</a>
                     {/* <a href="/signup" style={{ color: "white"}}>회원가입</a> */}
-                    <Link to="/signup">회원가입</Link>
+                    <Link to="/member">회원가입</Link>
                 </div>
             </header>
             <div>

@@ -27,7 +27,7 @@ const DropdownNav: React.FC = () => {
             </div>
             {
                 isOpen && (<div className={style.dropdownContent}>
-                    <NavLink to="/" onClick={closeDropdown} className={style.dropdownItem}>공지사항</NavLink>
+                    <NavLink to="/notice" onClick={closeDropdown} className={style.dropdownItem}>공지사항</NavLink>
                     <div className="accordion accordion-flush" id="inventoryAccordion">
                         <div className="accordion-item">
                             <h2 className="accordion-header">
@@ -46,7 +46,7 @@ const DropdownNav: React.FC = () => {
                                 data-bs-parent="#inventoryAccordion">
                                 <div className="accordion-body p-0">
                                     <NavLink
-                                        to="/"
+                                        to="/management"
                                         onClick={closeDropdown}
                                         className={style.dropdownItem}>
                                         재고 등록
@@ -63,9 +63,9 @@ const DropdownNav: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <NavLink to="/" onClick={closeDropdown} className={style.dropdownItem}>매출관리</NavLink>
-                    <NavLink to="/" onClick={closeDropdown} className={style.dropdownItem}>발주관리</NavLink>
-                    <NavLink to="/" onClick={closeDropdown} className={style.dropdownItem}>커뮤니티</NavLink>
+                    <NavLink to="/revenue" onClick={closeDropdown} className={style.dropdownItem}>매출관리</NavLink>
+                    <NavLink to="/order" onClick={closeDropdown} className={style.dropdownItem}>발주관리</NavLink>
+                    <NavLink to="/community" onClick={closeDropdown} className={style.dropdownItem}>커뮤니티</NavLink>
                 </div>)
             }
         </div>
