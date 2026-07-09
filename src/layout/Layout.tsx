@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import DropdownNav from './DropdownNav';
 import FloatingButton from '../floatButton/FloatingButton';
 
+// children : 컴포넌트의 여는 태그와 닫는 태그 사이에 들어가는 내용을 의미하는 props
 interface LayoutProps {
     children: React.ReactNode;
 }
@@ -19,12 +20,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 borderBottom: '2px solid black',
                 marginBottom: '4px',
                 padding: '10px 20px',
-                borderRadius: '8px', display: "flex", 
+                borderRadius: '8px', display: "flex",
                 justifyContent: "space-between", alignItems: "center"
             }}>
                 <h1>프로젝트</h1>
                 <div>
-                    <a href="/login" style={{marginRight: "10px"}}>로그인</a>
+                    <a href="/login" style={{ marginRight: "10px" }}>로그인</a>
                     {/* <a href="/signup" style={{ color: "white"}}>회원가입</a> */}
                     <Link to="/signup">회원가입</Link>
                 </div>
@@ -33,6 +34,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <DropdownNav />
             </div>
             <main>
+                {/* 
+                <Layout>
+                    요소    --------> {children}
+                </Layout>F
+                */}
                 {children}
                 <FloatingButton />
             </main>
