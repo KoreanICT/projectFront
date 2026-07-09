@@ -1,0 +1,69 @@
+/* navbar.module.css */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    box-sizing: border-box;
+}
+
+/* 링크 일때 사용 */
+.link {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    background: #eee;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: purple;
+}
+
+/* 활성화 되었을 대 사용 */
+.active {
+    color: dodgerblue;
+    font-weight: bold;
+}
+
+/* Dropdown.tsx에 적용 */
+.dropdown {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.dropdownContent {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.dropdownContent a {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdownContent a:hover {
+    background-color: #ececec;
+    color: orange;
+}
+
+.arrow {
+    margin-left: 5px;
+    font-size: 12px;
+}
