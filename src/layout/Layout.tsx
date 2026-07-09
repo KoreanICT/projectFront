@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import DropdownNav from './DropdownNav';
+import FloatingButton from '../floatButton/FloatingButton';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -11,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div style={{
             maxWidth: '1200px', margin: '40px auto 0',
             padding: '20px', border: '2px solid #ddd',
-            backgroundColor: '#eee',
+            backgroundColor: '#fff',
             borderRadius: '8px'
         }}>
             <header style={{
@@ -33,6 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
             <main>
                 {children}
+                <FloatingButton />
             </main>
             <footer style={{
                 padding: '10px',
