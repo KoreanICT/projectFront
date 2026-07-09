@@ -30,8 +30,10 @@ git push origin --delete master - 연결한 원격 레포지토리 삭제 <br>
 
 
 ## VSCODE 작업 방법
-1. clone 받은 폴더 열기
+1. clone 받은 폴더 VSCODE로 열기
 2. 자신이 담당한 코드를 작업한다
 3. 코드 작업 이후 터미널창을 연다
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/3a33c323-50af-4368-b2a7-1649c6c96749" />
 
-
+4. 팀장에게 얘기하고 문제 없으면 git pull origin master로 재반영
+5.  2~4를 반복
