@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './cont/member/Login';
-import Signup from './cont/member/Signup';
+import Layout from './layout/Layout';
+import AppRoutes from './router/AppRoutes';
 
 
 const Dashboard = () => (
@@ -13,14 +13,15 @@ const Dashboard = () => (
 );
 
 const App: React.FC = () => {
+  
+
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+     
+        <Layout>
+          <AppRoutes />
+        </Layout>
+      
     </Router>
   );
 };

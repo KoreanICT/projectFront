@@ -8,6 +8,8 @@ import Member from '../cont/member/Member'
 import Notice from '../cont/notice/Notice'
 import Order from '../cont/order/Order'
 import Revenue from '../cont/revenue/Revenue'
+import Login from '../cont/member/Login'
+import Signup from '../cont/member/Signup'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -39,24 +41,19 @@ const AppRoutes: React.FC = () => {
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
         { path: '/', element: <Home />},
-
-
         { path: '/community', element: <Community />},
-
-
         { path: '/management', element: <Management />},
-
-
         { path: '/member', element: <Member />},
-
-
         { path: '/notice', element: <Notice />},
-
-
         { path: '/order', element: <Order />},
+        { path: '/user/login', element: <Login/>},
+        { path: '/user/signup', element: <Signup />},
+        
 
 
-        { path: '/revenue', element: <Revenue />},
+        // <Route path="/login" element={<Login />} />
+        // <Route path="/signup" element={<Signup />} />
+        // <Route path="/dashboard" element={<Dashboard />} />
 
 
     ]
