@@ -10,6 +10,12 @@ import Order from '../cont/order/Order'
 import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
+import Inquirecomm from '../cont/inquiry/Inquirecomm'
+import InquireList from '../cont/inquiry/InquireList'
+import InquireDetail from '../cont/inquiry/InquireDetail'
+// import UpCommunityForm from '../cont/upCommunity/UpCommnunityForm'
+// import UpCommunityForm from '../cont/upCommunity/UpCommunityForm'
+
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -41,14 +47,23 @@ const AppRoutes: React.FC = () => {
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
         { path: '/', element: <Home />},
-        { path: '/community', element: <Community />},
+        
         { path: '/management', element: <Management />},
         { path: '/member', element: <Member />},
         { path: '/notice', element: <Notice />},
         { path: '/order', element: <Order />},
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
-        { path: '/revenue', element: <Revenue/>}
+        { path: '/revenue', element: <Revenue/>},
+        { path: '/inquiry', element: <InquireList/>},
+        { path: '/Inquirecomm', element: <Inquirecomm/>},
+        { path: '/InquireDetail', element: <InquireDetail/>},
+        { path: '/community', element: <Community />},
+        // { path: '/communityform', element: <UpCommunityForm/>},
+
+
+
+        // { path: '/admin', element: <Admin />}
         
 
 
