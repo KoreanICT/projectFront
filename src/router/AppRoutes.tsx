@@ -13,6 +13,7 @@ import Signup from '../cont/member/Signup'
 import Admin from '../cont/admin/Admin'
 import UpCommunityForm from '../cont/community/UpCommunityForm'
 import CommunityDetail from '../cont/community/CommunityDetail'
+import Members from '../cont/admin/Members'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -60,6 +61,8 @@ const AppRoutes: React.FC = () => {
 
 
 
+        { path: '/admin/member', element: <Members />},
+        { path: '/admin', element: <Admin />},
         { path: '/admin', element: <Admin />}
         
 

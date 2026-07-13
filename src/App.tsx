@@ -11,11 +11,9 @@ const App: React.FC = () => {
 
   return (
     <Router>
-     
         <Layout>
           <AppRoutes />
         </Layout>
-      
     </Router>
   );
 };
