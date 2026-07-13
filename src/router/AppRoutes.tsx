@@ -48,6 +48,7 @@ const AppRoutes: React.FC = () => {
         { path: '/order', element: <Order />},
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
+        { path: '/revenue', element: <Revenue/>}
         
 
 
