@@ -10,6 +10,7 @@ import Order from '../cont/order/Order'
 import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
+import UpCommunityForm from '../cont/community/UpCommunityForm'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -49,6 +50,8 @@ const AppRoutes: React.FC = () => {
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         
+        { path: '/community', element: <Community />},
+        { path: '/communityform', element: <UpCommunityForm/>}
 
 
         // <Route path="/login" element={<Login />} />

@@ -7,6 +7,9 @@ interface MemberForm {
   pwd1: string;
   pwd2: string;
   nick: string;
+  name: string;
+  phone: string;
+  storeCode: string;
 }
 
 const Signup: React.FC = () => {
@@ -15,6 +18,9 @@ const Signup: React.FC = () => {
     pwd1: '',
     pwd2: '',
     nick: '',
+    name: '',
+    phone: '',
+    storeCode: '',
   });
 
   const [code, setCode] = useState('');
@@ -26,7 +32,7 @@ const Signup: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalContent, setModalContent] = useState('');
-  
+
   // 약관 상태 관리
   const [agreements, setAgreements] = useState<string[]>([]);
 
@@ -165,6 +171,9 @@ const Signup: React.FC = () => {
         email: form.email,
         pwd: form.pwd1,
         nick: form.nick,
+        name: form.name,
+        phone: form.phone,
+        storeCode: form.storeCode,
         marketingAgree: agreements.includes('marketing') ? 'Y' : 'N'
       });
 
@@ -177,8 +186,8 @@ const Signup: React.FC = () => {
       console.error(error);
     }
   };
- //약관동의 모달팝업
- const openModal = (title: string, content: string) => {
+  //약관동의 모달팝업
+  const openModal = (title: string, content: string) => {
     setModalTitle(title);
     setModalContent(content);
     setShowModal(true);
@@ -188,7 +197,7 @@ const Signup: React.FC = () => {
     <div className="container mt-5">
       <form onSubmit={handleSubmit} className="p-4 bg-light border rounded">
         <h2 className="text-center mb-4">회원가입</h2>
-        
+
         {/* 이메일 */}
         <div className="mb-3 row align-items-center">
           <label htmlFor="email" className="col-sm-3 col-form-label fw-bold">이메일</label>
@@ -260,6 +269,13 @@ const Signup: React.FC = () => {
             />
           </div>
         </div>
+        {/* 이름 입력란 */}
+        <div className="mb-3 row">
+          <label htmlFor="name" className="col-sm-3 col-form-label fw-bold">이름</label>
+          <div className="col-sm-9">
+            <input type="text" name="name" className="form-control" value={form.name} onChange={handleChange} required />
+          </div>
+        </div>
         {/* 닉네임 */}
         <div className="mb-3 row">
           <label htmlFor="nick" className="col-sm-3 col-form-label fw-bold">닉네임</label>
@@ -274,15 +290,29 @@ const Signup: React.FC = () => {
             />
           </div>
         </div>
+        {/* 전화번호 입력란 */}
+        <div className="mb-3 row">
+          <label htmlFor="phone" className="col-sm-3 col-form-label fw-bold">전화번호</label>
+          <div className="col-sm-9">
+            <input type="text" name="phone" className="form-control" placeholder="010-0000-0000" value={form.phone} onChange={handleChange} required />
+          </div>
+        </div>
+        {/* 매장 코드 입력란 */}
+        <div className="mb-3 row">
+          <label htmlFor="storeCode" className="col-sm-3 col-form-label fw-bold">매장 코드</label>
+          <div className="col-sm-9">
+            <input type="text" name="storeCode" className="form-control" placeholder="가맹점 인증 코드를 입력하세요" value={form.storeCode} onChange={handleChange} required />
+          </div>
+        </div>
         {/* 약관동의  */}
-       <div className="mb-4 p-3 border rounded bg-white">
+        <div className="mb-4 p-3 border rounded bg-white">
           <div className="form-check mb-2 pb-2 border-bottom fw-bold">
-            <input 
-              className="form-check-input" 
-              type="checkbox" 
-              id="all-agree" 
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="all-agree"
               onChange={handleAllAgreementChange}
-              checked={agreements.length === 3} 
+              checked={agreements.length === 3}
             />
             <label className="form-check-label" htmlFor="all-agree">전체 동의하기</label>
           </div>
@@ -290,16 +320,16 @@ const Signup: React.FC = () => {
           {/* 서비스 이용약관 */}
           <div className="d-flex justify-content-between align-items-center mb-2">
             <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="terms" id="terms" onChange={handleAgreementChange} checked={agreements.includes("terms")}/> 
+              <input className="form-check-input" type="checkbox" value="terms" id="terms" onChange={handleAgreementChange} checked={agreements.includes("terms")} />
               <label className="form-check-label" htmlFor="terms">서비스 이용약관 동의 <span className="text-danger">(필수)</span></label>
             </div>
             {/* 클릭 시 openModal 함수 호출 */}
-            <button 
-              type="button" 
-              className="btn btn-link btn-sm text-decoration-none text-secondary" 
-              onClick={() => openModal(                
-'서비스 이용약관', 
-`제1조 (목적)
+            <button
+              type="button"
+              className="btn btn-link btn-sm text-decoration-none text-secondary"
+              onClick={() => openModal(
+                '서비스 이용약관',
+                `제1조 (목적)
 본 약관은 "북마인드 재고관리 시스템"(이하 "시스템")이 제공하는 회원 서비스 및 도서 주문, 재고 조회 관련 제반 서비스의 이용 조건과 절차를 규정함을 목적으로 합니다.
 
 제2조 (회원의 의무)
@@ -317,15 +347,15 @@ const Signup: React.FC = () => {
           {/* 개인정보 수집 */}
           <div className="d-flex justify-content-between align-items-center mb-2">
             <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="privacy" id="privacy" onChange={handleAgreementChange} checked={agreements.includes("privacy")}/> 
+              <input className="form-check-input" type="checkbox" value="privacy" id="privacy" onChange={handleAgreementChange} checked={agreements.includes("privacy")} />
               <label className="form-check-label" htmlFor="privacy">개인정보 수집 및 이용 동의 <span className="text-danger">(필수)</span></label>
             </div>
-            <button 
-              type="button" 
-              className="btn btn-link btn-sm text-decoration-none text-secondary" 
-              onClick={() => openModal( 
-'개인정보 수집 및 이용 동의',                 
-`주식회사 북마인드는 회원가입 및 재고관리 서비스 제공을 위해 아래와 같이 개인정보를 수집·이용합니다.
+            <button
+              type="button"
+              className="btn btn-link btn-sm text-decoration-none text-secondary"
+              onClick={() => openModal(
+                '개인정보 수집 및 이용 동의',
+                `주식회사 북마인드는 회원가입 및 재고관리 서비스 제공을 위해 아래와 같이 개인정보를 수집·이용합니다.
 
 1. 수집 및 이용 목적
 - 회원 식별 및 가입 의사 확인
@@ -348,15 +378,15 @@ const Signup: React.FC = () => {
           {/* 마케팅 정보 수신 */}
           <div className="d-flex justify-content-between align-items-center">
             <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="marketing" id="marketing" onChange={handleAgreementChange} checked={agreements.includes("marketing")}/> 
+              <input className="form-check-input" type="checkbox" value="marketing" id="marketing" onChange={handleAgreementChange} checked={agreements.includes("marketing")} />
               <label className="form-check-label" htmlFor="marketing">마케팅 정보 수신 동의 <span className="text-muted">(선택)</span></label>
             </div>
-            <button 
-              type="button" 
-              className="btn btn-link btn-sm text-decoration-none text-secondary" 
+            <button
+              type="button"
+              className="btn btn-link btn-sm text-decoration-none text-secondary"
               onClick={() => openModal(
-'마케팅 정보 수신 동의', 
-`주식회사 북마인드는 제공하는 이벤트 및 신간 도서 안내 등 광고성 정보를 수신하는 것에 동의합니다.
+                '마케팅 정보 수신 동의',
+                `주식회사 북마인드는 제공하는 이벤트 및 신간 도서 안내 등 광고성 정보를 수신하는 것에 동의합니다.
 
 1. 수집 및 이용 목적
 - 맞춤형 도서 추천 및 신간 소개
@@ -382,7 +412,7 @@ const Signup: React.FC = () => {
           <button type="submit" className="btn btn-primary">회원가입</button>
         </div>
       </form>
-       {showModal && (
+      {showModal && (
         <>
           {/* 모달 창 본체 */}
           <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex={-1}>
