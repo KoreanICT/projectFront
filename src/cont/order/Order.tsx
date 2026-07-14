@@ -1,17 +1,18 @@
 import React from 'react'
 import Stayle from './order.module.css'
 import MyCanvasPage from './Signature'
+
+interface order_form{
+  registration_number :number; //발주등록번호
+
+}
+
+
 const Order: React.FC = () => {
 
 
   return (
     <div>
-      {/* <div className={Stayle.header_container}>
-                <h2 className={Stayle.header_container_text}>발주관리 컴포넌트</h2>
-                <button className={Stayle.header_container_btn}>test1</button>
-                <button className={Stayle.header_container_btn}>test1</button>
-            </div>
-            <hr/> */}
       <div className={Stayle.header_container}>
         <h2 className={Stayle.header_container_text_right}>발주자 작성란</h2>
         <h3 className={Stayle.div_text}>서명 및 발주하기</h3>
@@ -20,11 +21,11 @@ const Order: React.FC = () => {
         <div className={Stayle.header_container}>
           <div className={Stayle.header_container_text_right}>
             <ul className={Stayle.header_container_li}>
-              <li>발주일 : <input type="text" name='date' /></li>
-              <li>발주일 : <input type="text" name='date' /></li>
-              <li>발주일 : <input type="text" name='date' /></li>
-              <li>발주일 : <input type="text" name='date' /></li>
-              <li>발주일 : <input type="text" name='date' /></li>
+              <li>대표자 : <input type="text" name='representativeName' /></li>
+              <li>주소 : <input type="text" name='address' /></li>
+              <li>상호명 : <input type="text" name='businessName' /></li>
+              <li>연락처 : <input type="text" name='phonNumber' /></li>
+              <li>발주일 : <input type="date" name='orderDate' /></li>
             </ul>
           </div>
           <div className={Stayle.header_container_text_left}>
