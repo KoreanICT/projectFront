@@ -27,7 +27,7 @@
 
 .header_container_text_right {
     display: flex;
-    width: 100%;
+    /* width: 100%; */
     align-items: center;
     gap: 12px;
     margin-right: auto;
@@ -58,6 +58,7 @@
 .Table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
 }
 
 .Table th,
@@ -85,13 +86,32 @@ li:last-child {
 
 .Signature_div {
     display: flex;
-    
+    position: relative;
     align-items: center;
     /* 좌우 자식들의 세로 가운데 정렬 */
     justify-content: center;
     /* 가운데로 몰아주기 */
-    gap: 100px;
+    /* gap: 100px; */
     /* 왼쪽과 오른쪽 사이의 정당한 틈새 */
     width: 100%;
     /* 부모 전체 너비 사용 */
+}
+
+.Signature_btn1 {
+    width: 100px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 30px;
+}
+
+.Signature_btn2 {
+    width: 100px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+}
+
+.div_text{
+    position: absolute;
+    right: 500px;
 }

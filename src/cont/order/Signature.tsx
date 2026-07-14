@@ -26,7 +26,7 @@ export default function Signature() {
         if (!canvasRef.current) return;
 
         if (canvasRef.current.isEmpty()) {
-            alert("글씨를 먼저 써주세요!");
+            alert("서명확인");
             return;
         }
 
@@ -83,9 +83,11 @@ export default function Signature() {
                 />
             </div>
 
-            <div style={{ bottom: 0, display: 'flex', gap: '10px' }}>
-                <button onClick={handleClear}>재서명</button>
-                <button onClick={handleSubmit} style={{ backgroundColor: '#0088FE', color: '#fff' }}>
+
+            {/* Signature_btn */}
+            <div style={{ display: 'flex', gap: '10px' }}>
+                <button className={Stayle.Signature_btn1} onClick={handleClear}>재서명</button>
+                <button className={Stayle.Signature_btn2} onClick={handleSubmit} style={{ backgroundColor: '#0088FE', color: '#fff' }}>
                     (서명)
                 </button>
             </div>
