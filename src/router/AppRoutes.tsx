@@ -11,6 +11,8 @@ import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
 
+import UpCommunityForm from '../cont/community/UpCommunityForm'
+
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
 // 여러 환경에서 동작할 수 있도록 여러 종유의 라우터 컴포넌트를 제공
@@ -41,13 +43,23 @@ const AppRoutes: React.FC = () => {
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
         { path: '/', element: <Home />},
-        { path: '/community', element: <Community />},
+        
         { path: '/management', element: <Management />},
         { path: '/member', element: <Member />},
         { path: '/notice', element: <Notice />},
         { path: '/order', element: <Order />},
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
+        { path: '/revenue', element: <Revenue/>},
+        
+        
+        { path: '/community', element: <Community/>},
+        { path: '/notice', element: <Notice/>},
+        { path: '/communityform', element: <UpCommunityForm/>},
+//Notice
+
+
+     
         
 
 
