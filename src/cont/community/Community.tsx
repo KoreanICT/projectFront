@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-function OwnerCommunityMain() {
+function Community() {
   // 학원에서 배우는 기본 상태 관리: 현재 페이지 및 검색어
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -27,9 +28,10 @@ function OwnerCommunityMain() {
       {/* [상단 헤더 구역] */}
       <div style={{ display: 'flex', justifyContent: 'between', alignItems: 'center', marginBottom: '10px' }}>
         <span style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '2px' }}>[ 북 마인드     커뮤니티 ]</span>
-        <button style={{ backgroundColor: 'transparent', color: '#000000', border: 'none', fontSize: '18px', cursor: 'pointer', marginLeft: 'auto' }}>
+        <Link to="/communityform" style={{ backgroundColor: 'transparent', color: '#000000', border: 'none', fontSize: '18px', cursor: 'pointer', marginLeft: 'auto', textDecoration: "none" }}>
           [글쓰기]
-        </button>
+
+        </Link>
       </div>
 
       {/* 이미지의 아날로그 격자선 표현 (+----+ 형태) */}
@@ -107,5 +109,5 @@ function OwnerCommunityMain() {
 
     </div>
   );
-
-export default OwnerCommunityMain;
+}
+export default Community;
