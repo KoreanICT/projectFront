@@ -25,6 +25,7 @@ import Form from "../cont/management/Form";
 import List from "../cont/management/List";
 import Detail from "../cont/management/Detail";
 import Form2 from "../cont/management/Form2";
+import InquireForm from '../cont/inquiry/InquireForm'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -73,6 +74,7 @@ const AppRoutes: React.FC = () => {
         { path: '/revenue', element: <Revenue/>},
         { path: '/inquiry', element: <InquireList/>},
         { path: '/Inquirecomm', element: <Inquirecomm/>},
+        { path: '/InquireForm', element: <InquireForm/>},
         { path: '/InquireDetail', element: <InquireDetail/>},
 
         
