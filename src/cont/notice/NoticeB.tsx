@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 //게시글
-function OwnerNoticeMain() {
+function NoticeB() {
   // 학원에서 배우는 가장 기초적인 상태 관리 변수 (페이지 및 검색어)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -27,9 +28,6 @@ function OwnerNoticeMain() {
       {/* [최상단 헤더 관문] */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <span style={{ fontSize: '20px', fontWeight: 'bold', letterSpacing: '4px' }}>[ 북 마인드     공지 ]</span>
-        <button style={{ backgroundColor: 'transparent', color: '#000000', border: 'none', fontSize: '18px', cursor: 'pointer', fontWeight: 'bold' }}>
-          [공지 등록]
-        </button>
       </div>
 
       {/* 소소문구 특유의 ASCII 격자 보더라인 (+-------+) */}
@@ -124,4 +122,4 @@ function OwnerNoticeMain() {
   );
 }
 
-export default OwnerNoticeMain;
+export default NoticeB;

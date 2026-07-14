@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //게시글 상세
-function OwnerPostDetailView() {
+function NoticeDetailB() {
   // 학원에서 배우는 기본 문법: 백엔드에서 특정 게시글 데이터를 호출해온 상태를 시뮬레이션
   const [post, setPost] = useState({
     headerTitle: '4번째 소소한 기념일',
@@ -116,4 +116,4 @@ function OwnerPostDetailView() {
   );
 }
 
-export default OwnerPostDetailView;
+export default NoticeDetailB;
