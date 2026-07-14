@@ -75,7 +75,7 @@
 
 
 /* 사용자 전환 버튼 */
-.admin_content > a {
+.transbtn {
   align-self: flex-end;
   padding: 8px 15px;
   border: 1px solid #555 !important;

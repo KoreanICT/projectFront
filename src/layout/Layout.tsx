@@ -62,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </h1>
 
             <div>
-              <Link to="/admin" style={{ marginLeft: "auto", textDecoration: "none", color: "inherit", border: "2px solid" }}>
+              <Link to="/admin" className={styles.transbtn}>
                 관리자 전환
               </Link>
 
@@ -125,7 +125,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* 관리자 컨텐츠 */}
             <section className={styles.admin_content} style={{ display: "flex", flexDirection: "column" }}>
-              <Link to="/" style={{ marginLeft: "auto", textDecoration: "none", color: "inherit", border: "2px solid" }}>
+              <Link to="/" className={styles.transbtn}>
                 사용자 전환
               </Link>
               {children}
