@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import DropdownNav from './DropdownNav';
 import FloatingButton from '../floatButton/FloatingButton';
+import AdminButton from '../cont/admin/AdminButton';
 
 // children : 컴포넌트의 여는 태그와 닫는 태그 사이에 들어가는 내용을 의미하는 props
 interface LayoutProps {
@@ -41,6 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Link to="/" style={{textDecoration: "none", color: 'inherit'}}>프로젝트 로고</Link>
             </h1>
             <div>
+              <AdminButton />
               <Link to="/user/login" style={{ marginRight: '10px' }}>
                 로그인
               </Link>
