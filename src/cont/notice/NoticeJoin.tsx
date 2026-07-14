@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // 등록
-function OwnerNoticeDetail() {
+function NoticeJoin() {
   // 학원에서 배우는 가장 정석적인 input/textarea 상태 관리 (양방향 바인딩)
   const [title, setTitle] = useState('[공지] 온라인 숍 이용 및 배송 안내');
   const [content, setContent] = useState(
@@ -100,4 +100,4 @@ function OwnerNoticeDetail() {
   ); 
 }
 
-export default OwnerNoticeDetail;
+export default NoticeJoin;

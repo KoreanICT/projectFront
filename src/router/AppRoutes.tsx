@@ -26,7 +26,6 @@ import List from "../cont/management/List";
 import Detail from "../cont/management/Detail";
 import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
-import UpCommunityForm from '../cont/community/UpCommunityForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
 
@@ -90,7 +89,6 @@ const AppRoutes: React.FC = () => {
 
         { path: '/admin/member', element: <Members />},
         { path: '/admin', element: <Admin />},
-        { path: '/admin', element: <Admin />}
         
         { path: '/community', element: <Community />},
         { path: '/communityform', element: <UpCommunityForm/>}

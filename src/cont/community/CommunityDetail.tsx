@@ -66,49 +66,52 @@ const CommunityDetail: React.FC = () => {
   const imageBasePath = `${backendUrl}/imgfile/`;
 
   return (
-    <div>
-      <div className={styles.container}>
-        <h1>상세보기 예제</h1>
-        <table className={styles.boardTable}>
-          <tbody>
-            <tr>
-              <th>번호</th>
-              <td>{community?.num}</td>
-            </tr>
-            <tr>
-              <th>제목</th>
-              <td>{community?.title}</td>
-            </tr>
-            <tr>
-              <th>작성자</th>
-              <td>{community?.writer}</td>
-            </tr>
-            <tr>
-              <th>이미지</th>
-              <td>
-                {community?.imgn ? (<img src={`${imageBasePath}${community?.imgn}`} alt={community.title} style={{ width: '100px', height: '100px'}} ></img>) : ("No Image")}
-              </td>
-            </tr>
-            <tr>
-              <th>내용</th>
-              <td>{community?.content}</td>
-            </tr>
-          </tbody>
-          {/* tfoot 목록으로 가는 링크를 만들고 스타일은 */}
-          <tfoot>
-            <tr>
-              <td colSpan={2} style={{ textAlign: "center" }}>
-                <button className={styles.button}>삭제</button>&nbsp;
-                <Link to="/community" className={styles.button}>
-                  목록
-                </Link>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <hr />
+
+    <div style={{ backgroundColor: '#ffffff', color: '#000000', padding: '40px', fontFamily: 'monospace', maxWidth: '750px', margin: '0 auto', boxSizing: 'border-box' }}>
+
+      {/* 1. 상단 타이틀 영역 */}
+      <div style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '30px', letterSpacing: '0.5px' }}>
+        {community?.title}
+      </div>
+
+      {/* 2. 본문 내용 출력 영역 (whiteSpace: 'pre-wrap'이 핵심 장갑입니다) */}
+      <div style={{ fontSize: '13px', lineHeight: '1.8', whiteSpace: 'pre-wrap', color: '#000000', marginBottom: '6px' }}>
+        {community?.content}
+      </div>
+
+      <div>
+        {community?.imgn ? (<img src={`${imageBasePath}${community?.imgn}`} alt={community.title} style={{ width: '500px', height: '500px' }} ></img>) : ("No Image")}
+      </div>
+
+      {/* 3. 하단 격자 구분선 및 통합 푸터 구역 */}
+      <div style={{ borderTop: '1px solid #333333', marginTop: '60px', paddingTop: '20px', fontSize: '11px', color: '#000000', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '20px', lineHeight: '1.8' }}>
+
+        {/* 좌측 가맹점 정보 */}
+        <div>
+          <span style={{ fontWeight: 'bold', color: '#000000' }}>대표 OOO</span><br />
+          사업자 번호 000-00-00000 통신판매업 0000-서울00-0000<br />
+          주소 서울특별시 00 00000 0 ( 00 ) 2층<br />
+          이용약관 이용약관 개인정보처리방침 호스팅 레몬24(주)<br />
+          T. 00-0000-0000 E. 0000000@gmail.com
+        </div>
+
+        {/* 중간 내비게이션 링크 */}
+        <div>
+          <span style={{ color: '#000000', cursor: 'pointer' }}>북 마인드 소개</span><br />
+          <span style={{ cursor: 'pointer' }}>입점처 안내</span><br />
+          <span style={{ cursor: 'pointer' }}>대량 주문, 커스텀</span>
+        </div>
+
+        {/* 우측 게시판 링크 */}
+        <div>
+          <span style={{ color: '#000000', cursor: 'pointer' }}>공지사항</span><br />
+          <span style={{ cursor: 'pointer' }}>문의사항</span><br />
+          <span style={{ cursor: 'pointer' }}>사용후기</span>
+        </div>
+
       </div>
     </div>
+
   )
 }
 
