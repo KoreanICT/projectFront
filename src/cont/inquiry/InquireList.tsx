@@ -171,7 +171,7 @@ const InquireList: React.FC = () => {
 
 
             {/* UpBoardForm.tsx  */}
-            <Link to="/Inquirecomm" className={styles.button}>
+            <Link to="/InquireForm" className={styles.button}>
                 글쓰기
             </Link>
 
