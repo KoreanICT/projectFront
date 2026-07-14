@@ -107,6 +107,5 @@ function OwnerCommunityMain() {
 
     </div>
   );
-}
 
 export default OwnerCommunityMain;

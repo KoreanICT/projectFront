@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import DropdownNav from './DropdownNav';
 import FloatingButton from '../floatButton/FloatingButton';
-
+import styles from "../cont/admin/adminManage.module.css"
 // children : 컴포넌트의 여는 태그와 닫는 태그 사이에 들어가는 내용을 의미하는 props
 interface LayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
@@ -13,7 +13,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { pathname } = useLocation();
   // /user 로 시작하는 모든 페이지
   const isSimpleLayout = pathname.startsWith('/user');
-    return (
+
+  const adminLayout = pathname.startsWith('/admin');
+
+  // NavLink를 사용하는 목적이기도 하고 어제 메뉴구현시 설명
+  // NavLink -> isActive 제공
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    // 활성화가 된 상태이면 style.active를 추가한다.
+    isActive ? `${styles.link} ${styles.active}` : styles.link;
+
+
+
+  return (
     <div
       style={{
         maxWidth: '1200px',
@@ -24,7 +35,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         borderRadius: '8px',
       }}
     >
-      {!isSimpleLayout ? (
+      {adminLayout ? (
+        <>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}><h1>프로젝트 로고</h1></Link>
+        </>
+      ) : !isSimpleLayout ? (
         <>
           <header
             style={{
@@ -38,17 +53,30 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             }}
           >
             <h1>
-                <Link to="/" style={{textDecoration: "none", color: 'inherit'}}>프로젝트 로고</Link>
+              <Link
+                to="/"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                프로젝트 로고
+              </Link>
             </h1>
+
             <div>
+              <Link to="/admin" className={styles.transbtn}>
+                관리자 전환
+              </Link>
+
               <Link to="/user/login" style={{ marginRight: '10px' }}>
                 로그인
               </Link>
-              <Link to="/user/signup">회원가입</Link>
+
+              <Link to="/user/signup">
+                회원가입
+              </Link>
             </div>
           </header>
 
-          <DropdownNav />
+          {(!adminLayout && !isSimpleLayout) && <DropdownNav />}
         </>
       ) : (
         <>
@@ -62,16 +90,49 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             }}
           >
             <h1>
-                <Link to="/" style={{textDecoration: "none", color: 'inherit'}}>프로젝트 로고</Link>
+              <Link
+                to="/"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                프로젝트 로고
+              </Link>
             </h1>
           </header>
         </>
       )}
 
       <main>
-        {children}
+        {adminLayout ?
+          <div className={styles.admin_container}>
+            {/* 사이드바 */}
+            <aside className={styles.sidebar}>
+              <h3>관리자 메뉴</h3>
 
-        {!isSimpleLayout && <FloatingButton />}
+              <ul>
+                <li>
+                  <NavLink to="/admin/member" className={linkClass}>
+                    회원 관리
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink to="/admin/notice" className={linkClass}>
+                    공지 등록
+                  </NavLink>
+                </li>
+              </ul>
+            </aside>
+
+            {/* 관리자 컨텐츠 */}
+            <section className={styles.admin_content} style={{ display: "flex", flexDirection: "column" }}>
+              <Link to="/" className={styles.transbtn}>
+                사용자 전환
+              </Link>
+              {children}
+            </section>
+          </div> : children}
+
+        {(!adminLayout && !isSimpleLayout) && <FloatingButton />}
       </main>
 
       {!isSimpleLayout && (
