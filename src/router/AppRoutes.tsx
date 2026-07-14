@@ -12,6 +12,7 @@ import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
 
+import UpCommunityForm from '../cont/community/UpCommunityForm'
 import Inquirecomm from '../cont/inquiry/Inquirecomm'
 import InquireList from '../cont/inquiry/InquireList'
 import InquireDetail from '../cont/inquiry/InquireDetail'
@@ -55,10 +56,11 @@ const AppRoutes: React.FC = () => {
     const routeList = [
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
-   
- // { path: "/management", element: <Management /> }, 첫화면
+        { path: '/', element: <Home />},
+        
+        { path: '/management', element: <Management />},
             // 도서 재고 관리
-            {path: "/",element: <Home />,},
+        {path: "/",element: <Home />,},
         { path: "/management", element: <Form /> },
         { path: "/management/form", element: <Form /> },
          { path: "/management/list", element: <List /> },
@@ -71,15 +73,15 @@ const AppRoutes: React.FC = () => {
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         { path: '/revenue', element: <Revenue/>},
+      
+        { path: '/community', element: <Community/>},
+        { path: '/notice', element: <Notice/>},
+        { path: '/community/detail/:num', element: <CommunityDetail />},
+        { path: '/communityform', element: <UpCommunityForm/>},
+      
         { path: '/inquiry', element: <InquireList/>},
         { path: '/Inquirecomm', element: <Inquirecomm/>},
         { path: '/InquireDetail', element: <InquireDetail/>},
-
-        
-        
-        { path: '/community', element: <Community />},
-        { path: '/community/detail/:num', element: <CommunityDetail />},
-        { path: '/communityform', element: <UpCommunityForm/>},
 
 
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styles from './upboard.module.css'
 
 // 1) 서버측 데이터의 json을 가지고 인터페이스를 정의한다.
@@ -30,96 +30,85 @@ import styles from './upboard.module.css'
 // 6) UI에 적절한 값을 배치하거나 핸들링을 할 수 있다.
 
 interface CommunityVO { // 1
-    num: number;
-    title: string;
-    writer: string;
-    content: string;
-    imgn?: string;
-    hit: number;
-    reip: string;
-    bdate: string;
+  num: number;
+  title: string;
+  writer: string;
+  content: string;
+  imgn?: string;
+  hit: number;
+  reip: string;
+  bdate: string;
 }
 const CommunityDetail: React.FC = () => {
 
-    const backendUrl = process.env.REACT_APP_BACK_END_URL;
-
-    const [community, setCommunity] = useState<CommunityVO | null>(null);
-    const { num } = useParams<{ num: string }>(); // 3
-
-    const navigate = useNavigate(); 
-
-    console.log("숫자가 나와요 : " + num);
-    console.log("-------------------------------------");
-    // --------------------------------------------------------------------- 검수 반드시 한 ㅜㅎ에 지행 *****
-    // useEffect(()=>{},[])
-    // [num] 즉 파라미터는 리스트에서 선택될 때마다 값이 바뀌니 그때 마다 데이터를 초기화 한다.
-    useEffect(() => {
-        const detailServer = async () => {
-            const url = `${backendUrl}/api/community/detail?num=${num}`;
-            const resp = await axios.get(url);
-            // 응답받은 데이터 구조와 동일한 useState에 저장
-            setCommunity(resp.data);
-        }
-        detailServer();
-    }, [num]);
-
-
-    const delCommunity = async () => {
-        if (window.confirm("정말 삭제하겠나요?")) {
-            const url = `${backendUrl}/api/community/delete?num=${num}`;
-            await axios.delete(url);
-            window.alert("삭제 되었습니다.");
-            navigate("/community")
-        }
+  const backendUrl = process.env.REACT_APP_BACK_END_URL;
+  const [community, setCommunity] = useState<CommunityVO | null>(null);
+  const { num } = useParams<{ num: string }>(); // 3
+  console.log("숫자가 나와요 : " + num);
+  console.log("-------------------------------------");
+  // --------------------------------------------------------------------- 검수 반드시 한 ㅜㅎ에 지행 *****
+  // useEffect(()=>{},[])
+  // [num] 즉 파라미터는 리스트에서 선택될 때마다 값이 바뀌니 그때 마다 데이터를 초기화 한다.
+  useEffect(() => {
+    const detailServer = async () => {
+      const url = `${backendUrl}/api/community/detail?num=${num}`;
+      const resp = await axios.get(url);
+      console.log('Server Data');
+      console.log(resp.data);
+      console.log("-------------------------------------");
+      // 응답받은 데이터 구조와 동일한 useState에 저장
+      setCommunity(resp.data);
     }
+    detailServer();
+  }, [num]);
 
-    const imageBasePath = `${backendUrl}/imgfile/`;
+  const imageBasePath = `${backendUrl}/imgfile/`;
 
-    return (
-        <div>
-            <div className={styles.container}>
-                <h1>상세보기 예제</h1>
-                <table className={styles.boardTable}>
-                    <tbody>
-                        <tr>
-                            <th>번호</th>
-                            <td>{community?.num}</td>
-                        </tr>
-                        <tr>
-                            <th>제목</th>
-                            <td>{community?.title}</td>
-                        </tr>
-                        <tr>
-                            <th>작성자</th>
-                            <td>{community?.writer}</td>
-                        </tr>
-                        <tr>
-                            <th>이미지</th>
-                            <td>
-                                {community?.imgn ? (<img src={`${imageBasePath}${community?.imgn}`} alt={community.title} style={{ width: '100px', height: '100px' }} ></img>) : ("No Image")}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>내용</th>
-                            <td>{community?.content}</td>
-                        </tr>
-                    </tbody>
-                    {/* tfoot 목록으로 가는 링크를 만들고 스타일은 */}
-                    <tfoot>
-                        <tr>
-                            <td colSpan={2} style={{ textAlign: "center" }}>
-                                <button className={styles.button} onClick={delCommunity}>삭제</button>&nbsp;
-                                <Link to="/community" className={styles.button}>
-                                    목록
-                                </Link>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <hr />
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <div className={styles.container}>
+        <h1>상세보기 예제</h1>
+        <table className={styles.boardTable}>
+          <tbody>
+            <tr>
+              <th>번호</th>
+              <td>{community?.num}</td>
+            </tr>
+            <tr>
+              <th>제목</th>
+              <td>{community?.title}</td>
+            </tr>
+            <tr>
+              <th>작성자</th>
+              <td>{community?.writer}</td>
+            </tr>
+            <tr>
+              <th>이미지</th>
+              <td>
+                {community?.imgn ? (<img src={`${imageBasePath}${community?.imgn}`} alt={community.title} style={{ width: '100px', height: '100px'}} ></img>) : ("No Image")}
+              </td>
+            </tr>
+            <tr>
+              <th>내용</th>
+              <td>{community?.content}</td>
+            </tr>
+          </tbody>
+          {/* tfoot 목록으로 가는 링크를 만들고 스타일은 */}
+          <tfoot>
+            <tr>
+              <td colSpan={2} style={{ textAlign: "center" }}>
+                <button className={styles.button}>삭제</button>&nbsp;
+                <Link to="/community" className={styles.button}>
+                  목록
+                </Link>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <hr />
+      </div>
+    </div>
+  )
 }
 
 export default CommunityDetail
