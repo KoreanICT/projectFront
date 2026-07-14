@@ -1,0 +1,196 @@
+/* 관리자 전체 영역 */
+.admin_container {
+  display: flex;
+  min-height: 80vh;
+  gap: 20px;
+}
+
+
+/* 사이드바 */
+.sidebar {
+  width: 220px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px 0;
+  border: 1px solid #ddd;
+}
+
+
+/* 관리자 메뉴 제목 */
+.sidebar h3 {
+  text-align: center;
+  margin: 0 0 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 20px;
+}
+
+
+/* 메뉴 리스트 */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.sidebar li {
+  margin: 5px 0;
+}
+
+
+/* 메뉴 링크 */
+.sidebar a {
+  display: block;
+  padding: 12px 25px;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: 0.2s;
+}
+.active {
+    background-color: #ddd;
+    font-weight: bold;
+}
+
+
+/* hover */
+.sidebar a:hover {
+  background-color: #ddd;
+  padding-left: 35px;
+}
+
+
+/* 관리자 컨텐츠 */
+.admin_content {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  border: 1px solid #ddd;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* 사용자 전환 버튼 */
+.transbtn {
+  align-self: flex-end;
+  padding: 8px 15px;
+  border: 1px solid #555 !important;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333 !important;
+  margin-bottom: 20px;
+}
+
+
+/* 버튼 hover */
+.admin_content > a:hover {
+  background-color: #eee;
+}
+
+.active {
+  background-color: #ddd;
+  font-weight: bold;
+}
+
+
+/* 회원관리 */
+.memberTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+
+/* 테이블 제목 */
+.memberTable th {
+  background-color: #f5f5f5;
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+/* 데이터 영역 */
+.memberTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+
+/* 마우스 올렸을 때 */
+.memberTable tbody tr:hover {
+  background-color: #fafafa;
+}
+
+
+/* 검색 영역 */
+.memberTable tfoot td {
+  padding: 15px;
+  background-color: #fff;
+}
+
+
+/* 검색 select */
+.memberTable select {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/* 검색 input */
+.memberTable input {
+  padding: 8px;
+  width: 200px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/* 검색 버튼 */
+.memberTable button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+
+.memberTable button:hover {
+  background-color: #ccc;
+}
+
+
+/* 페이징 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+
+/* 삭제 버튼 */
+.button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+
+.button:hover {
+  background-color: #bbb;
+}

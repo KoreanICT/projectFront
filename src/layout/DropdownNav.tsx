@@ -53,7 +53,7 @@ const DropdownNav: React.FC = () => {
                                     </NavLink>
 
                                     <NavLink
-                                        to="/"
+                                        to="/management/list"
                                         onClick={closeDropdown}
                                         className={style.dropdownItem}
                                     >

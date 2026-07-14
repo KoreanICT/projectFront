@@ -1,121 +1,115 @@
+/*conts/upboard/upboard.module.css*/
 .container {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px;
-}
-
-.boardTable {
+  }
+  
+  .boardTable {
     width: 100%;
     border-collapse: collapse;
-}
-
-.boardTable th,
-.boardTable td {
+  }
+  
+  .boardTable th, .boardTable td {
     border: 1px solid #ddd;
     padding: 10px;
-}
-
-.boardTable thead {
+  }
+  
+  .boardTable thead {
     background-color: rgb(230, 173, 213);
-}
-
-.titleLink {
+  }
+  
+  .titleLink {
     text-decoration: none;
     color: black;
-}
-
-.titleLink:hover {
+  }
+  
+  .titleLink:hover {
     text-decoration: underline;
     color: dodgerblue;
-}
-
-/* 버튼 통일 스타일 */
+  }
+  
+  /* 버튼 통일 스타일 */
 .button {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: rgb(160, 6, 119);
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-top: 10px;
-    border: none;
-    line-height: normal;
-    cursor: pointer;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: rgb(160, 6, 119);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-top: 10px;
+  border: none;         
+  line-height: normal;   
+  cursor: pointer;       
 }
-
-.button,
-.button:link,
-.button:visited {
-    text-decoration: none;
-    color: white;
-}
-
-.button:hover {
+  .button, .button:link, .button:visited {
+  text-decoration: none;
+  color: white;
+  }
+  .button:hover {
     background-color: deepskyblue;
-}
-
-/*
+  }
+  /*
   form
   */
-.title {
+  .title {
     text-align: center;
     font-size: 28px;
     margin-bottom: 20px;
-}
-
-.grid {
+  }
+   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-}
-
-.card {
+  }
+  
+  .card {
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
     background: white;
     transition: transform 0.3s;
-}
-
-.card:hover {
+  }
+  
+  .card:hover {
     transform: scale(1.05);
-}
-
-.card img {
+  }
+  
+  .card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-}
-
-.card-title {
+  }
+  
+  .card-title {
     padding: 10px;
     font-weight: bold;
     text-align: center;
-}
+  }
+  
 
-
-.form {
+  .form {
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 20px;
-}
-
-.input {
+  }
+  
+  .input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
-}
-
-.detail {
+  }
+  
+  .detail {
     text-align: center;
-}
-
-.detail img {
+  }
+  
+  .detail img {
     width: 400px;
     max-width: 90%;
     height: auto;
     border-radius: 10px;
     margin-top: 20px;
-}
+  }

@@ -41,7 +41,7 @@ interface CommunityVO { // 1
 }
 const CommunityDetail: React.FC = () => {
 
-    const backendUrl = process.env.REACT_APP_BACK_END_URL;
+  const backendUrl = process.env.REACT_APP_BACK_END_URL;
 
   const [community, setCommunity] = useState<CommunityVO | null>(null);
   const { num } = useParams<{ num: string }>(); // 3

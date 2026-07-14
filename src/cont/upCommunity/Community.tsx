@@ -182,10 +182,11 @@ const Community: React.FC = () => {
 
             </table>
             {/* UpboardForm.tsx */}
-            <Link to="communityform" className={styles.button}>
+            <Link to="/communityform" className={styles.button}>
                 글쓰기
             </Link>
         </div>
     )
 }
-export default Community;
+
+export default Community

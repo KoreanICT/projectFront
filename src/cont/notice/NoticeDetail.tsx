@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //공지 상세
-function Notice() {
+function NoticeDetail() {
   // 학원에서 배우는 기초 문법: DB에서 공지사항 한 건을 읽어왔다고 가정하는 더미 데이터 상태
   const [notice, setNotice] = useState({
     title: '[ 공지 ] 온라인 숍 이용 및 배송 안내',
@@ -81,4 +81,4 @@ function Notice() {
   );
 }
 
-export default Notice;
+export default NoticeDetail;
