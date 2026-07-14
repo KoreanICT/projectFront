@@ -17,6 +17,7 @@ import InquireList from '../cont/inquiry/InquireList'
 import InquireDetail from '../cont/inquiry/InquireDetail'
 
 import Admin from '../cont/admin/Admin'
+import Members from '../cont/admin/Members'
 // import Management from "../cont/management/Management";
 import UpCommunityForm from "../cont/community/UpCommunityForm";
 import CommunityDetail from "../cont/community/CommunityDetail";
@@ -82,6 +83,8 @@ const AppRoutes: React.FC = () => {
 
 
 
+        { path: '/admin/member', element: <Members />},
+        { path: '/admin', element: <Admin />},
         { path: '/admin', element: <Admin />}
         
 
