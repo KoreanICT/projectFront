@@ -1,99 +1,67 @@
-/* navbar.module.css */
+/* 전체 GNB 내비게이션 바 */
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #dcdcdc; 
+  padding: 0 20px;
+  height: 50px;
+  position: relative;
+}
 
-/* 링크 일때 사용 */
+/* 각 상단 메뉴 아이템 */
+.navItem {
+  position: relative; 
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* 상단 메뉴 링크 스타일 */
 .link {
-    display: block;
-    width: 100%;
-    padding: 15px 20px;
-    box-sizing: border-box;
-    color: black;
-    text-decoration: none;
-    font-size: 18px;
-    background: #eee;
-    cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  transition: background-color 0.2s;
 }
 
-.link:hover {
-    color: purple;
+/* 호버 및 활성화 시 약간 더 어두운 회색 */
+.link:hover, .active {
+  background-color: #c8c8c8; 
 }
 
-/* 활성화 되었을 대 사용 */
-.active {
-    color: dodgerblue;
-    font-weight: bold;
+/* 드롭다운 메뉴 */
+.dropdownMenu {
+  display: none; 
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 104px; /* 드롭다운 넓이 */
+  background-color: #dcdcdc; /* 부모와 동일한 톤의 회색 */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  flex-direction: column;
 }
 
-/* Dropdown.tsx에 적용 */
-.dropdown {
-    position: relative;
-    display: block;
-    width: 100%;
+/* 상단 메뉴에 마우스를 올렸을 때 드롭다운을 보여줌 */
+.hasDropdown:hover .dropdownMenu {
+  display: flex;
 }
 
-.dropdownContent {
-    background: #eee;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-
-    top: 100%;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 100;
-}
-
-.dropdownContent a {
-    padding: 16px 20px;
-    font-size: 16px;
-    color: black;
-    text-decoration: none;
-}
-
-.dropdownContent a:hover {
-    background-color: #ececec;
-    color: orange;
-}
-
-.arrow {
-    margin-left: 5px;
-    font-size: 12px;
-}
-
+/* 드롭다운 내부 링크 스타일 */
 .dropdownItem {
-    display: flex;
-    align-items: center;
-    width: 100%;
-
-    padding: 1rem 1.25rem;
-
-    background: #fff;
-    color: #212529;
-    text-decoration: none;
-
-    border: none;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-
-    font-size: 1rem;
-    font-weight: 400;
-
-    transition: background-color .15s ease-in-out;
+  text-decoration: none;
+  color: #333;
+  padding: 12px 20px;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: background-color 0.2s;
 }
 
-:global(.accordion-button),
-:global(.accordion-button:not(.collapsed)) {
-    background-color: #fff;
-    color: #333;
-    box-shadow: none;
-}
-
-:global(.accordion-button:hover),
-:global(.accordion-button:not(.collapsed):hover) {
-    background-color: #ececec !important;
-    color: orange !important;
-}
-
-:global(.accordion-button:focus),
-:global(.accordion-button:not(.collapsed):focus) {
-    box-shadow: none !important;
-    border-color: transparent;
+/* 서브메뉴 호버 시 효과 */
+.dropdownItem:hover {
+  background-color: #b8b8b8; 
 }
