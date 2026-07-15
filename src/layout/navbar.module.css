@@ -2,10 +2,11 @@
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #dcdcdc; 
-  padding: 0 20px;
-  height: 50px;
+  background-color: #ffffff; 
+  padding: 0 40px; /* 양옆 여백을 넓혀서 시각적인 개방감 부여 */
+  height: 64px; /* 조금 더 시원해진 높이 */
   position: relative;
+  border-bottom: 1px solid #f1f1f1; 
 }
 
 /* 각 상단 메뉴 아이템 */
@@ -14,36 +15,51 @@
   height: 100%;
   display: flex;
   align-items: center;
+  margin-right: 8px; /* 메뉴 아이템 간의 간격 조정 */
 }
 
 /* 상단 메뉴 링크 스타일 */
 .link {
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  padding: 0 20px;
+  color: #1a1a1a; /* 완전한 블랙(#000)보다 미세하게 부드러운 먹색 */
+  font-weight: 600; /* 조금 더 단단하고 존재감 있는 두께 */
+  font-size: 14px;
+  letter-spacing: -0.02em; /* 요즘 힙한 브랜드 웹사이트 특유의 자간 좁히기 적용 */
+  padding: 8px 16px; 
   display: flex;
   align-items: center;
-  height: 100%;
-  transition: background-color 0.2s;
+  justify-content: center;
+  height: auto; 
+  border-radius: 999px; /* 완전한 타원형(Capsule) 형태로 변경하여 동글동글하고 트렌디하게 변경 */
+  background-color: transparent;
+  /* cubic-bezier를 사용해 마우스 오버 시 쫀득하고 부드럽게 샥- 바뀌는 인터랙션 구현 */
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 호버 및 활성화 시 약간 더 어두운 회색 */
+/* 호버 및 활성화 시 검정 배경에 흰색 글씨 */
 .link:hover, .active {
-  background-color: #c8c8c8; 
+  background-color: #000000; 
+  color: #ffffff;
 }
 
-/* 드롭다운 메뉴 */
+/* 드롭다운 메뉴 (요즘 스타일: 미니멀 투명 레이어 느낌) */
 .dropdownMenu {
   display: none; 
   position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 104px; /* 드롭다운 넓이 */
-  background-color: #dcdcdc; /* 부모와 동일한 톤의 회색 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  top: 80%; 
+  left: 50%;
+  transform: translateX(-50%); 
+  min-width: 140px;
+  background-color: rgba(255, 255, 255, 0.95); /* 미세한 반투명으로 더 고급스럽게 */
+  backdrop-filter: blur(8px); /* 뒤 배경이 살짝 흐려지는 iOS 감성 적용 */
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.06); /* 그림자를 아주 넓고 은은하게 퍼뜨려 고급스럽게 처리 */
   z-index: 10;
   flex-direction: column;
+  border: 1px solid #eeeeee;
+  border-radius: 12px; /* 드롭다운 모서리도 더 둥글고 트렌디하게 */
+  overflow: hidden;
+  padding: 8px; /* 내부 여백을 주어 아이템들이 답답하지 않게 배치 */
 }
 
 /* 상단 메뉴에 마우스를 올렸을 때 드롭다운을 보여줌 */
@@ -54,14 +70,18 @@
 /* 드롭다운 내부 링크 스타일 */
 .dropdownItem {
   text-decoration: none;
-  color: #333;
-  padding: 12px 20px;
-  font-size: 14px;
+  color: #444444;
+  padding: 10px 16px;
+  font-size: 13px; /* 살짝 작게 조절해서 세련미 UP */
+  font-weight: 500;
+  letter-spacing: -0.01em;
   white-space: nowrap;
-  transition: background-color 0.2s;
+  border-radius: 8px; /* 드롭다운 내부 아이템도 개별적으로 둥글게 호버 효과 부여 */
+  transition: background-color 0.2s, color 0.2s;
 }
 
 /* 서브메뉴 호버 시 효과 */
 .dropdownItem:hover {
-  background-color: #b8b8b8; 
+  background-color: #f5f5f5; /* 서브메뉴는 어두운 블랙 대신, 맑은 그레이 톤으로 세련되게 양보 */
+  color: #000000;
 }
