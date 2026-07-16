@@ -3,23 +3,19 @@ import styles from './Inquire.module.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
-interface UpBoardVO {
-    num: number;
-    title: string;
-    writer: string;
-    content: string;
-    imgn: string;
-    hit: number;
-    reip: string;
-    bdate: string;
+interface InquiryVO {
+    inum: number;
+    ititle: string;
+    iwriter: string;
+    icontent: string;
+    imgn: string;   
+    idate: string;
 }
-//totalItems - count
-//totalPages - 전체페이지수
-//currentPage - 현재페이지 
-//startPage , endPage
+
+ 
 const InquireList: React.FC = () => {
     //2. 서버데이터 JsonArray를 자바스크립트 배열로 저장할 useState 만들기
-    const [upboardList, setUpboardList] = useState<UpBoardVO[]>([]);
+    const [inquiryList, setInquiryList] = useState<InquiryVO[]>([]);
     const [totalItems, setTotalItems] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1); //cPate의 기본 1값을 초기화
@@ -36,9 +32,7 @@ const InquireList: React.FC = () => {
     //http://192.168.0.195/myictstudy/imgfile/
     const imageBasePath = `${backendUrl}/imgfile/`;
 
-
-    //cPage값 page 서버로 전송 
-    const fetchUpboardList = async (page: number) => {
+    const fetchInquiryList = async (page: number) => {
         try {
             console.log(backendUrl);
             const urls = `${backendUrl}/upboard/upList`;
@@ -51,7 +45,7 @@ const InquireList: React.FC = () => {
             });
             console.log(response.data.data);
             //useState에 배치
-            setUpboardList(response.data.data);
+            setInquiryList(response.data.data);
             setTotalItems(response.data.totalItems);
             setTotalPages(response.data.totalPages);
             setCurrentPage(response.data.currentPage);
@@ -63,7 +57,7 @@ const InquireList: React.FC = () => {
     }
     //4. useEffect를 사용해서 서버로 비동기식으로 접속해서 데이터를 가져오는 설정
     useEffect(() => {
-        fetchUpboardList(currentPage);
+        fetchInquiryList(currentPage);
     }, [currentPage])
 
     //page Handler 
@@ -72,52 +66,47 @@ const InquireList: React.FC = () => {
     }
     //검색 버튼 클릭시에 1페이지 부터 검색!
     const searchFunction = () => {
-        fetchUpboardList(1);
+        fetchInquiryList(1);
     }
     return (
         <div className={styles.container}>
-            <h2>Upboard List = {totalItems}</h2>
-            <h3>검수용 : totalPages {totalPages} / startPage: {startPage}
-                / endPage : {endPage}
-            </h3>
             <table className={styles.boardTable}>
                 <thead>
-                    <tr><td colSpan={6}>현재페이지 {currentPage}</td></tr>
+                    <tr><td colSpan={5}>현재페이지 {currentPage}</td></tr>
                     <tr>
                         <th>번호</th>
                         <th>제목</th>
                         <th>작성자</th>
                         <th>이미지</th>
-                        <th>조회수</th>
                         <th>작성일</th>
                     </tr>
                 </thead>
                 <tbody>
                     {/* upboardList.map((item)=>()) */}
                     {
-                        upboardList.map((item) => (
-                            <tr key={item.num}>
-                                <td>{item.num}</td>
+                        inquiryList.map((item) => (
+                            <tr key={item.inum}>
+                                <td>{item.inum}</td>
                                 <td>
-                                    <Link to={`/community/updetail/${item.num}`}
+                                    <Link to={`/community/updetail/${item.inum}`}
                                         className={styles.titleLink}
-                                    >{item.title}</Link>
+                                    >{item.ititle}</Link>
                                 </td>
-                                <td>{item.writer}</td>
+                                <td>{item.iwriter}</td>
                                 <td>{item.imgn ? (
                                     <img src={`${imageBasePath}${item.imgn}`}
-                                        alt={item.title} style={{ width: '80px', height: 'auto' }}
+                                        alt={item.ititle} style={{ width: '80px', height: 'auto' }}
                                     />) : ("No Image")}
                                 </td>
-                                <td>{item.hit}</td>
-                                <td>{item.bdate}</td>
+                                
+                                <td>{item.idate}</td>
                             </tr>
                         ))
                     }
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colSpan={6} className='text-center align-middle'>
+                        <th colSpan={5} className='text-center align-middle'>
                             <select onChange={(e) => { setSearchType(e.target.value) }}>
                                 <option value="1">작성자</option>
                                 <option value="2">제목</option>
@@ -179,7 +168,6 @@ const InquireList: React.FC = () => {
                 디테일로 이동하기 위한 버튼
             </Link>
         </div>
-        
     )
 }
 
