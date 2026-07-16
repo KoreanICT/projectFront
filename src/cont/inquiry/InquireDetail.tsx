@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import styles from './Inquire.module.css'
-import Inquiry from './Inquiry';
 import Inquirecomm from './Inquirecomm';
 
 const InquireDetail: React.FC = () => {
@@ -38,7 +37,7 @@ const InquireDetail: React.FC = () => {
                     <tr>
                         <td colSpan={2} style={{textAlign:"center"}}>
                         <button className={styles.button} >삭제</button>&nbsp;  
-                        <Link to="/community/uplist" className={styles.button}>
+                        <Link to="/inquiry" className={styles.button}>
                         목록</Link>
                         </td>
                     </tr>

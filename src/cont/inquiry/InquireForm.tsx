@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from './upboard.module.css'
+import styles from './Inquire.module.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,7 +65,11 @@ const InquireForm: React.FC = () => {
             await axios.post(url,data,{
                 headers:{'Content-Type':'multipart/form-data'}
             });
-            navigate('/community/uplist');
+
+
+            //오류가 없으면 리스트로 이동 
+            navigate('/inquiry');
+
         } catch (error) {
              console.log(`Erro =>${error}`);
         }

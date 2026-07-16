@@ -59,6 +59,7 @@
     width: 100%;
     border-collapse: collapse;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .Table th,
@@ -111,7 +112,13 @@ li:last-child {
     bottom: 0;
 }
 
-.div_text{
+.div_text {
     position: absolute;
     right: 500px;
+}
+
+.sal_div_header {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
 }

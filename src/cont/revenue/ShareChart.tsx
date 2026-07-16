@@ -4,13 +4,14 @@ const data = [
     { name: '소설', value: 400 },
     { name: '자연과학', value: 300 },
     { name: '인문학', value: 100 },
+    { name: '만화', value: 200 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#575550'];
+const COLORS = ['#0088FE', '#00C49F', '#575550','pink'];
 
 export default function ShareChart() {
     return (
-        <div style={{ width: 250 , height: 300 }}>
+        <div style={{ width: 500 , height: 300 }}>
             <ResponsiveContainer>
                 <PieChart>
                     <Pie
