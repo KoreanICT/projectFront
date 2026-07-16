@@ -65,6 +65,7 @@ const DropdownNav: React.FC = () => {
                     </div>
                     <NavLink to="/revenue" onClick={closeDropdown} className={style.dropdownItem}>매출관리</NavLink>
                     <NavLink to="/order" onClick={closeDropdown} className={style.dropdownItem}>발주관리</NavLink>
+                    <NavLink to="/sal" onClick={closeDropdown} className={style.dropdownItem}>판매관리</NavLink>
                     <NavLink to="/community" onClick={closeDropdown} className={style.dropdownItem}>커뮤니티</NavLink>
                 </div>)
             }
