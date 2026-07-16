@@ -2,11 +2,18 @@ import React from 'react'
 import Stayle from './order.module.css'
 import MyCanvasPage from './Signature'
 
-interface order_form{
-  registration_number :number; //발주등록번호
 
-}
 
+//발주테이블, 서명을 이미지로 받을 컬럼 수정해야함 지금 없음
+// interface OrderForm{
+//   ofnum : number;
+//   oname : string;
+//   oaddr : string;
+//   ophone : string;
+//   oinum : number;
+//   ofdate : string;
+//   mnum : number;
+// }
 
 const Order: React.FC = () => {
 
@@ -21,11 +28,11 @@ const Order: React.FC = () => {
         <div className={Stayle.header_container}>
           <div className={Stayle.header_container_text_right}>
             <ul className={Stayle.header_container_li}>
-              <li>대표자 : <input type="text" name='representativeName' /></li>
-              <li>주소 : <input type="text" name='address' /></li>
+              <li>대표자 : <input type="text" name='oname' /></li>
+              <li>주소 : <input type="text" name='oaddr' /></li>
               <li>상호명 : <input type="text" name='businessName' /></li>
-              <li>연락처 : <input type="text" name='phonNumber' /></li>
-              <li>발주일 : <input type="date" name='orderDate' /></li>
+              <li>연락처 : <input type="text" name='ophone' /></li>
+              <li>발주일 : <input type="date" name='ofdate' /></li>
             </ul>
           </div>
           <div className={Stayle.header_container_text_left}>
@@ -44,7 +51,7 @@ const Order: React.FC = () => {
 
 
 
-        <table className={Stayle.Table}>
+        <table >
           <thead>
             <tr>
               <th>도서명</th>
