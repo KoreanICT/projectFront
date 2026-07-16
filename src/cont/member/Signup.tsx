@@ -10,6 +10,7 @@ interface MemberForm {
   name: string;
   phone: string;
   storeCode: string;
+  addr: string;
 }
 
 const Signup: React.FC = () => {
@@ -21,6 +22,7 @@ const Signup: React.FC = () => {
     name: '',
     phone: '',
     storeCode: '',
+    addr: '',
   });
 
   const [code, setCode] = useState('');
@@ -174,6 +176,7 @@ const Signup: React.FC = () => {
         name: form.name,
         phone: form.phone,
         storeCode: form.storeCode,
+        addr: form.addr,
         marketingAgree: agreements.includes('marketing') ? 'Y' : 'N'
       });
 
@@ -302,6 +305,21 @@ const Signup: React.FC = () => {
           <label htmlFor="storeCode" className="col-sm-3 col-form-label fw-bold">매장 코드</label>
           <div className="col-sm-9">
             <input type="text" name="storeCode" className="form-control" placeholder="가맹점 인증 코드를 입력하세요" value={form.storeCode} onChange={handleChange} required />
+          </div>
+        </div>
+        {/* 주소 입력란 */}
+        <div className="mb-3 row">
+          <label htmlFor="addr" className="col-sm-3 col-form-label fw-bold">주소</label>
+          <div className="col-sm-9">
+            <input
+              type="text"
+              name="addr"
+              className="form-control"
+              placeholder="도로명 주소를 입력하세요"
+              value={form.addr}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
         {/* 약관동의  */}
