@@ -28,6 +28,10 @@ import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
+import SurveyAddForm from '../cont/survey/SurveyAddForm'
+import SurveyManagement from '../cont/survey/SurveyManagement'
+import SurveyUpdate from '../cont/survey/SurveyUpdate'
+import SurveyResult from '../cont/survey/SurveyResult'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -91,7 +95,13 @@ const AppRoutes: React.FC = () => {
         { path: '/admin', element: <Admin />},
         
         { path: '/community', element: <Community />},
-        { path: '/communityform', element: <UpCommunityForm/>}
+        { path: '/communityform', element: <UpCommunityForm/>},
+
+        { path: '/survey', element: <SurveyAddForm />},
+        { path: '/admin/surveymanagement', element: <SurveyManagement />},
+        { path: '/admin/surveyresult', element: <SurveyResult />},
+        { path: '/admin/surveyupdate', element: <SurveyUpdate />}
+
 
 
         // <Route path="/login" element={<Login />} />

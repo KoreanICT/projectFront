@@ -31,7 +31,7 @@ const SurveyAddForm: React.FC = () => {
         surveytitle: `${q} [기본 설정 평점: ${surveyTitles[index]}점]`, 
         }))
       };
-
+      
       const response = await axios.post(`${backendUrl}/api/survey/addsurvey`, surveyData);
       if(response.status === 200){
         alert("설문이 등록 되었습니다.");
@@ -41,6 +41,8 @@ const SurveyAddForm: React.FC = () => {
       console.error("Error :", error);
       alert("설문 등록에 실패했습니다.");
     }
+  
+    navigate(-1);
   };
 
   return (
