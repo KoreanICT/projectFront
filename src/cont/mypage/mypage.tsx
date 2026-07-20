@@ -27,7 +27,6 @@ const MyPage: React.FC = () => {
     commentCount: 0,
   };
 
-  // 이미지 선택 시 미리보기
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -38,7 +37,7 @@ const MyPage: React.FC = () => {
 
   return (
     <div className='container my-5' style={{ maxWidth: '900px' }}>
-      {/* 1. 상단 프로필 영역 */}
+      {/* 상단 프로필 영역 */}
       <div className='d-flex justify-content-between align-items-start pb-4 border-bottom'>
         <div className='d-flex align-items-center gap-4'>
           {/* 프로필 이미지 */}
@@ -107,7 +106,7 @@ const MyPage: React.FC = () => {
         </button>
       </div>
 
-      {/* 2. 중앙 통계 영역 */}
+      {/* 중앙 통계 영역 */}
       <div className='row text-center py-5'>
         <div className='col-6'>
           <div className='fs-2 fw-bold'>게시물 : {userInfo.postCount}</div>
@@ -117,13 +116,13 @@ const MyPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. 하단 콘텐츠 영역 */}
+      {/* 하단 콘텐츠 영역 */}
       <div
         className='border rounded p-4 position-relative'
         style={{ minHeight: '300px' }}
       >
         <span className='badge border text-dark position-absolute top-0 start-0 m-3 bg-white'>
-          Section 6
+          PostList
         </span>
 
         <div
