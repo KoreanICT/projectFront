@@ -119,3 +119,12 @@
   font-size: 0.85rem;
   padding: 5px 8px;
 }
+/* 텍스트 상자 크기 고정 */
+.textarea {
+  resize: none;
+}
+
+.questionsContainer {
+  margin-bottom: 10px !important;
+  align-self: flex-end;
+}

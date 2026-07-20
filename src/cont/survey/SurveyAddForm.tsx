@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from './survey.module.css'; 
 
+interface SurveyData {
+  code : number,
+  contents : {},
+  request? : any
+}
+
 const SurveyAddForm: React.FC = () => {
   const [code, setCode] = useState("5"); 
+  const [req,setReq] = useState<string>("")
   const [surveyTitles, setSurveyTitles] = useState<number[]>(Array(5).fill(0)); 
   const navigate = useNavigate();
   const backendUrl = process.env.REACT_APP_BACK_END_URL;
@@ -13,6 +20,9 @@ const SurveyAddForm: React.FC = () => {
     newRatings[index] = score;
     setSurveyTitles(newRatings);
   };
+  useEffect(() => {
+    
+  },[])
   const surveySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -25,25 +35,28 @@ const SurveyAddForm: React.FC = () => {
         "기타 개선 사항이나 추가되었으면 하는 기능이 있다면 자유롭게 적어주세요. 추가"
       ];
 
-      const surveyData = {
-        code: 5, 
+      const surveyData:SurveyData = {
+        code: 6, 
         contents: fixedQuestions.map((q, index) => ({
         surveytitle: `${q} [기본 설정 평점: ${surveyTitles[index]}점]`, 
-        }))
+        })),
+        request:req
       };
       
       const response = await axios.post(`${backendUrl}/api/survey/addsurvey`, surveyData);
       if(response.status === 200){
         alert("설문이 등록 되었습니다.");
-        navigate("/surveylist");
+        navigate(-1);
       } 
     } catch (error) {
       console.error("Error :", error);
       alert("설문 등록에 실패했습니다.");
     }
-  
-    navigate(-1);
   };
+
+  const handleChange = (e: any) => {
+    setReq(e.target.value);
+  }
 
   return (
     <div className={style.container2}>
@@ -83,7 +96,6 @@ const SurveyAddForm: React.FC = () => {
                       );
                     })}
                   </div>
-                    
                   {/* 점수표시  */}
                   <span className={`badge bg-secondary rounded-pill ${style.scoreBadge}`}>
                     {surveyTitles[index]}점
@@ -92,13 +104,24 @@ const SurveyAddForm: React.FC = () => {
 
               </li>
             ))}
+            <li className="list-group-item p-4 bg-white d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+              <div className={style.textareaContainer}>
+                <p className="fw-bold text-dark flex-grow-1">6. 추가로 요청하실 사안이 있으시다면 자유롭게 작성해주세요.</p>
+                <textarea
+                  className={style.textarea}
+                  rows={8}
+                  cols={85}
+                  onChange={handleChange}
+                />
+              </div>
+            </li>
           </ul>
           
           <div className="card-footer bg-light p-3 text-center border-0 d-flex gap-2 justify-content-center">
             <button type="submit" className="btn btn-primary fw-bold px-4 py-2">등록</button>
-            <button type="button" className="btn btn-secondary px-4 py-2" onClick={() => navigate("/surveylist")}>
+            {/* <button type="button" className="btn btn-secondary px-4 py-2" onClick={() => navigate("/surveylist")}>
               목록
-            </button>
+            </button> */}
           </div>
         </div>
       </form>

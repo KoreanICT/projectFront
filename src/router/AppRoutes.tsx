@@ -31,7 +31,7 @@ import NoticeJoin from '../cont/notice/NoticeJoin'
 import SurveyAddForm from '../cont/survey/SurveyAddForm'
 import SurveyManagement from '../cont/survey/SurveyManagement'
 import SurveyUpdate from '../cont/survey/SurveyUpdate'
-import SurveyResult from '../cont/survey/SurveyResult'
+
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -99,7 +99,6 @@ const AppRoutes: React.FC = () => {
 
         { path: '/survey', element: <SurveyAddForm />},
         { path: '/admin/surveymanagement', element: <SurveyManagement />},
-        { path: '/admin/surveyresult', element: <SurveyResult />},
         { path: '/admin/surveyupdate', element: <SurveyUpdate />}
 
 
