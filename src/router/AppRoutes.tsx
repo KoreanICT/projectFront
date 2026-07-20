@@ -65,29 +65,24 @@ const AppRoutes: React.FC = () => {
         {path: "/",element: <Home />,},
         { path: "/management", element: <Form /> },
         { path: "/management/form", element: <Form /> },
-         { path: "/management/list", element: <List /> },
+        { path: "/management/list", element: <List /> },
         { path: "/management/detail/:bookId", element: <Detail /> },
         { path: "/management/form2/:bookId", element: <Form2 /> },
-        
         { path: '/member', element: <Member />},
         // { path: '/notice', element: <Notice />},
         { path: '/order', element: <Order />},
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         { path: '/revenue', element: <Revenue/>},
-        { path: '/sal', element: <Sal/>}
         { path: '/community', element: <Community/>},
         {path: '/notice', element: <NoticeB />},
         {path: '/admin/noticejoin', element: <NoticeJoin />},
         { path: '/community/detail/:num', element: <CommunityDetail />},
-        { path: '/communityform', element: <UpCommunityForm/>},
-      
+        { path: '/communityform', element: <UpCommunityForm/>},     
         { path: '/inquiry', element: <InquireList/>},
         { path: '/Inquirecomm', element: <Inquirecomm/>},
         { path: '/InquireForm', element: <InquireForm/>},
         { path: '/InquireDetail', element: <InquireDetail/>},
-
-
 
         { path: '/admin/member', element: <Members />},
         { path: '/admin', element: <Admin />},
