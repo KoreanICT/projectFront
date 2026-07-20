@@ -30,6 +30,8 @@ import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
+import MyPage from '../cont/mypage/mypage'
+import ProfileEditPage from '../cont/mypage/profileeditpage'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -93,7 +95,9 @@ const AppRoutes: React.FC = () => {
         { path: '/admin', element: <Admin />},
         
         { path: '/community', element: <Community />},
-        { path: '/communityform', element: <UpCommunityForm/>}
+        { path: '/communityform', element: <UpCommunityForm/>},
+        { path: '/mypage', element: <MyPage />},
+        { path: '/profileeditpage', element: <ProfileEditPage/>}
 
 
         // <Route path="/login" element={<Login />} />
