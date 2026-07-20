@@ -11,6 +11,8 @@ import Order from '../cont/order/Order'
 import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
+
+import Sal from '../cont/product/Product'
 import UpCommunityForm from '../cont/community/UpCommunityForm'
 
 import Inquirecomm from '../cont/inquiry/Inquirecomm'
@@ -73,7 +75,7 @@ const AppRoutes: React.FC = () => {
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         { path: '/revenue', element: <Revenue/>},
-      
+        { path: '/sal', element: <Sal/>},
         { path: '/community', element: <Community/>},
         {path: '/notice', element: <NoticeB />},
         {path: '/admin/noticejoin', element: <NoticeJoin />},
