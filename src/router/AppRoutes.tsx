@@ -60,43 +60,47 @@ const AppRoutes: React.FC = () => {
     const routeList = [
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
-        { path: '/', element: <Home />},
-        // 도서 재고 관리
-        {path: "/",element: <Home />,},
-        { path: "/management", element: <Form /> },
-        { path: "/management/form", element: <Form /> },
-        { path: "/management/list", element: <List /> },
-        { path: "/management/detail/:bookId", element: <Detail /> },
-        { path: "/management/form2/:bookId", element: <Form2 /> },
-        { path: '/member', element: <Member />},
-        // { path: '/notice', element: <Notice />},
-        { path: '/order', element: <Order />},
-        { path: '/user/login', element: <Login/>},
-        { path: '/user/signup', element: <Signup />},
-        { path: '/revenue', element: <Revenue/>},
+        { path: '/', element: <Home /> },
 
-        { path: '/sal', element: <Sal/>},
-        { path: '/community', element: <Community/>},
-        {path: '/notice', element: <NoticeB />},
-        {path: '/admin/noticejoin', element: <NoticeJoin />},
-        { path: '/community/detail/:num', element: <CommunityDetail />},
-        { path: '/communityform', element: <UpCommunityForm/>},     
-        { path: '/inquiry', element: <InquireList/>},
-        { path: '/Inquirecomm', element: <Inquirecomm/>},
-        { path: '/InquireForm', element: <InquireForm/>},
-        { path: '/InquireDetail', element: <InquireDetail/>},
+// 회원 관련
+{ path: '/member', element: <Member /> },
+{ path: '/user/login', element: <Login /> },
+{ path: '/user/signup', element: <Signup /> },
 
-        { path: '/admin/member', element: <Members />},
-        { path: '/admin', element: <Admin />},
-        
-        { path: '/community', element: <Community />},
-        { path: '/communityform', element: <UpCommunityForm/>}
+// 도서 재고 관리
+{ path: "/", element: <Home /> },
+{ path: "/management", element: <Form /> },
+{ path: "/management/form", element: <Form /> },
+{ path: "/management/list", element: <List /> },
+{ path: "/management/detail/:bookId", element: <Detail /> },
+{ path: "/management/form2/:bookId", element: <Form2 /> },
 
+// 기타
+// { path: '/notice', element: <Notice /> },
+{ path: '/order', element: <Order /> },
+{ path: '/revenue', element: <Revenue /> },
+{ path: '/sal', element: <Sal /> },
 
-        // <Route path="/login" element={<Login />} />
-        // <Route path="/signup" element={<Signup />} />
-        // <Route path="/dashboard" element={<Dashboard />} />
+// 커뮤니티
+{ path: '/community', element: <Community /> },
+{ path: '/notice', element: <NoticeB /> },
+{ path: '/admin/noticejoin', element: <NoticeJoin /> },
+{ path: '/community/detail/:num', element: <CommunityDetail /> },
+{ path: '/communityform', element: <UpCommunityForm /> },
 
+// 문의
+{ path: '/inquiry', element: <InquireList /> },
+{ path: '/Inquirecomm', element: <Inquirecomm /> },
+{ path: '/InquireForm', element: <InquireForm /> },
+{ path: '/InquireDetail', element: <InquireDetail /> },
+
+// 관리자
+{ path: '/admin/member', element: <Members /> },
+{ path: '/admin', element: <Admin /> },
+
+// <Route path="/login" element={<Login />} />
+// <Route path="/signup" element={<Signup />} />
+// <Route path="/dashboard" element={<Dashboard />} />
 
     ];
     return (
@@ -105,7 +109,7 @@ const AppRoutes: React.FC = () => {
                 routeList.map((route, idx) => (
                     <Route key={idx} {...route} />
                 ))}
-            
+
         </Routes>
     );
 };

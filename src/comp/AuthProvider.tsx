@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
+import axios from 'axios';
 interface Member {
   userid: string;
   name: string;
@@ -7,101 +7,113 @@ interface Member {
 }
 
 interface AuthContextProps {
-  member: Member | null; 
+  member: Member | null;
   checkLogin: () => Promise<void>; 
-  isLoggedIn: boolean; 
+  isLoggedIn: boolean; //로그인 여부를 true / false
 
   login: (userid: string, password: string) => Promise<'success' | 'fail' | 'error'>;
   logout: () => Promise<void>; 
   updateMemberName: (name: string) => void; 
   updateMemberEmail: (email: string) => void;
-
-  loading: boolean; 
+  loading: boolean;  
 }
-
 // 1단계: Context 생성
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
+const backendUrl = process.env.REACT_APP_BACK_END_URL;
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [member, setMember] = useState<Member | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);  // loadin
+  console.log("ddd");
 
-  // [UI 테스트용] 로그인 상태 체크 함수 (서버 요청 없이 로딩만 해제)
+  console.log("--------------------------------------")
+  console.log(backendUrl);
+
+  //로그인 상태를 체크 해주는 함수
   const checkLogin = async () => {
     try {
-      // 로컬 스토리지 등에 임시 저장된 유저 정보가 있다면 불러오는 식으로 고도화도 가능합니다.
-      setLoading(false);
+
+      const res = await axios.get(`${backendUrl}/api/login/session`, {
+        withCredentials: true
+      });
+      console.log(res.data);
+      console.log(res.data.mnum);
+      if (res.data?.userid) {
+        setMember(res.data); // 로그인 된 정보를 받아서 useState에 저장한다.
+      } else {
+        setMember(null); //로그인 상태가 아니라면 useState를 초기화 
+      }
     } catch {
-      setMember(null);
+      setMember(null); // 문제가 발생해도 초기화 
     } finally {
+
       setLoading(false);
     }
   };
 
-  // [UI 테스트용] 로그인 함수 (아이디: admin@test.com / 비번: 1234 일 때만 성공)
   const login = async (userid: string, password: string): Promise<'success' | 'fail' | 'error'> => {
-    setLoading(true);
     try {
-      if (userid === 'admin@test.com' && password === '1234') {
-        setMember({
-          userid: 'admin@test.com',
-          name: '홍길동',
-          email: 'admin@test.com'
-        });
+      const res = await axios.post(
+        `${backendUrl}/api/login/dologin`,
+        { userid, password }, { withCredentials: true }
+      );
+      alert(res.data);
+      if (res.data === 'success') {
+        await checkLogin(); // 로그인 성공 후 세션 정보 불러오기
         return 'success';
       } else {
-        return 'fail'; // 정보가 다르면 로그인 실패 메시지 출력용
+        return 'fail';
       }
     } catch {
       return 'error';
-    } finally {
-      setLoading(false);
     }
   };
 
-  // [UI 테스트용] 로그아웃 함수
   const logout = async () => {
+    await axios.get(`${backendUrl}/api/login/dologout`, {
+      withCredentials: true
+    });
     setMember(null);
   };
-
   useEffect(() => {
+
     if (window.location.pathname !== '/login') {
       checkLogin();
     } else {
-      setLoading(false); 
+      setLoading(false);
     }
-  }, []);
 
-  // 회원 정보 수정 시뮬레이션
+  }, []);
+  //기존 member 정보는 유지하고 name만 새 값으로 변경
   const updateMemberName = (name: string) => {
     setMember(prev => (prev ? { ...prev, name } : prev));
   };
-
+  //현재 로그인한 회원의 이메일만 수정하는 함수
   const updateMemberEmail = (email: string) => {
     setMember(prev => (prev ? { ...prev, email } : prev));
   };
 
-  // 로그인 여부를 true / false로 계산
   const isLoggedIn = member !== null;
-
+  // 2단계: Context에 값 제공
   return (
-    <AuthContext.Provider value={{   
-        member,
-        isLoggedIn,
-        checkLogin,
-        login,
-        logout,
-        updateMemberName,
-        updateMemberEmail,
-        loading
+    <AuthContext.Provider value={{
+      member,
+      isLoggedIn,
+      checkLogin,
+      login,
+      logout,
+      updateMemberName,
+      updateMemberEmail,
+      loading
     }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
+// 3단계: useAuth() 에서 값을 사용할 수 있도록 제공
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('AuthContext 은 AuthProvider 안에서만 사용해야 합니다.');
+  if (!context) throw new Error('AuthContext 은 AuthProvider  안에서만 사용해야 합니다.');
   return context;
 };

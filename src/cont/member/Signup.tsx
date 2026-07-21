@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface MemberForm {
+  id: string;
   email: string;
   pwd1: string;
   pwd2: string;
@@ -15,6 +16,7 @@ interface MemberForm {
 
 const Signup: React.FC = () => {
   const [form, setForm] = useState<MemberForm>({
+    id: '',
     email: '',
     pwd1: '',
     pwd2: '',
@@ -39,7 +41,8 @@ const Signup: React.FC = () => {
   const [agreements, setAgreements] = useState<string[]>([]);
 
   const navigate = useNavigate();
-  const urls = "http://192.168.0.19/myictstudy";
+  const urls = process.env.REACT_APP_BACK_END_URL;
+  console.log("BACKEND URL =", urls);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,13 +59,19 @@ const Signup: React.FC = () => {
   // 이메일 중복 확인
   const idCheck = async () => {
     if (!form.email) {
+      console.log(form.email);
       alert('이메일을 입력해주세요.');
       return;
     }
     try {
-      const res = await axios.post(`${urls}/api/auth/idCheck`, {
-        email: form.email,
-      });
+      const res = await axios.get(
+        `${urls}/api/member/emailCheck`,
+        {
+          params: {
+            email: form.email
+          }
+        }
+      );
       if (res.data === 0) {
         alert('사용 가능한 이메일입니다.');
         setIdMessage('사용 가능한 이메일입니다.');
@@ -71,9 +80,13 @@ const Signup: React.FC = () => {
         setIdMessage('이미 사용 중인 이메일입니다.');
         setIsEmailChecked(false);
       }
-    } catch (error) {
-      alert('중복 확인 오류');
-      console.error(error);
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.response);
+      console.log(error.response?.status);
+      console.log(error.response?.data);
+
+      alert("중복 확인 오류");
     }
   };
 
@@ -169,20 +182,23 @@ const Signup: React.FC = () => {
     }
 
     try {
-      const res = await axios.post(`${urls}/api/auth/signup`, {
-        email: form.email,
+      const res = await axios.post(`${urls}/api/member/signup`, {
+        id: form.id,
         pwd: form.pwd1,
-        nick: form.nick,
         name: form.name,
-        phone: form.phone,
-        storeCode: form.storeCode,
-        addr: form.addr,
+        nick: form.nick,
+        email: form.email,
+        mphone: form.phone,
+        storecode: form.storeCode,
+        storeaddr: form.addr,
+        logintype: "LOCAL",
+        authority: "MEMBER",
         marketingAgree: agreements.includes('marketing') ? 'Y' : 'N'
       });
 
       if (res.status === 200 || res.data.success) {
         alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
-        navigate('/login');
+        navigate('/user/login');
       }
     } catch (error) {
       alert('회원가입 처리 중 오류가 발생했습니다.');
@@ -200,7 +216,20 @@ const Signup: React.FC = () => {
     <div className="container mt-5">
       <form onSubmit={handleSubmit} className="p-4 bg-light border rounded">
         <h2 className="text-center mb-4">회원가입</h2>
-
+        {/* id */}
+        <div className="mb-3 row">
+          <label className="col-sm-3 col-form-label fw-bold">아이디</label>
+          <div className="col-sm-9">
+            <input
+              type="text"
+              name="id"
+              className="form-control"
+              value={form.id}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
         {/* 이메일 */}
         <div className="mb-3 row align-items-center">
           <label htmlFor="email" className="col-sm-3 col-form-label fw-bold">이메일</label>
