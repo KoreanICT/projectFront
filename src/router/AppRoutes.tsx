@@ -11,6 +11,8 @@ import Order from '../cont/order/Order'
 import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
+
+import Sal from '../cont/product/Product'
 import UpCommunityForm from '../cont/community/UpCommunityForm'
 
 import Inquirecomm from '../cont/inquiry/Inquirecomm'
@@ -107,6 +109,26 @@ const AppRoutes: React.FC = () => {
         // <Route path="/signup" element={<Signup />} />
         // <Route path="/dashboard" element={<Dashboard />} />
 
+// 커뮤니티
+{ path: '/community', element: <Community /> },
+{ path: '/notice', element: <NoticeB /> },
+{ path: '/admin/noticejoin', element: <NoticeJoin /> },
+{ path: '/community/detail/:num', element: <CommunityDetail /> },
+{ path: '/communityform', element: <UpCommunityForm /> },
+
+// 문의
+{ path: '/inquiry', element: <InquireList /> },
+{ path: '/Inquirecomm', element: <Inquirecomm /> },
+{ path: '/InquireForm', element: <InquireForm /> },
+{ path: '/InquireDetail', element: <InquireDetail /> },
+
+// 관리자
+{ path: '/admin/member', element: <Members /> },
+{ path: '/admin', element: <Admin /> },
+
+// <Route path="/login" element={<Login />} />
+// <Route path="/signup" element={<Signup />} />
+// <Route path="/dashboard" element={<Dashboard />} />
 
     ];
     return (
@@ -115,7 +137,7 @@ const AppRoutes: React.FC = () => {
                 routeList.map((route, idx) => (
                     <Route key={idx} {...route} />
                 ))}
-            
+
         </Routes>
     );
 };

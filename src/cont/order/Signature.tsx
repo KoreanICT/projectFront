@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import Stayle from './order.module.css'
-
+import { OrderForm } from './Order';
 /*
     미래를 위한 주석
 
@@ -15,9 +15,12 @@ import Stayle from './order.module.css'
     이미지파일이 깨질 가능성이높음
     다라서 제이슨에 별도의 키(객체)로써 저장 후 MultipartFile로 받아야함
 */
+interface SignatureProps {
+    order: OrderForm | null;
+}
 
-export default function Signature() {
-    // 핵심: useRef에 SignatureCanvas 타입을 명시하고 초기값을 null로 지정합니다.
+export default function Signature({ order }: SignatureProps) {
+    // useRef에 SignatureCanvas 타입을 명시하고 초기값을 null로 지정
     const canvasRef = useRef<SignatureCanvas | null>(null);
 
     // 3번 조건: 리액트 버튼 클릭 트리거 함수
@@ -27,6 +30,11 @@ export default function Signature() {
 
         if (canvasRef.current.isEmpty()) {
             alert("서명확인");
+            return;
+        }
+        
+        if (!order) {
+            alert("주문서 정보가 없습니다.");
             return;
         }
 
@@ -41,16 +49,17 @@ export default function Signature() {
             // Base64 문자열을 실제 파일(Blob/File) 객체로 변환하여 담기
             const response = await fetch(image64);
             const blob: Blob = await response.blob();
-            /* 
-                중요한 주석 남김 
-                canvas_image.png 부분 서명파일에 일관성이 없으니까
-                반드시 DB아키택처할때 유저식별코드(pk)를 
-                signature_${파라미터.식별코드}.png 로 받을것
-            */ 
-            formData.append('signature', blob, 'canvas_image.png'); // 백엔드에서 'signature'이라는 이름으로 받음
 
+            const fileName = order?.ophone
+                ? `signature_${order.ophone}.png` //서명파일 작명양식 : signature_핸드폰번호.png
+                : 'canvas_signature.png';
+
+            formData.append('signature', blob, fileName); // 백엔드에서 'signature'이라는 이름으로 받음
+            if (order) {
+                formData.append('order', JSON.stringify(order));
+            }
             // 백엔드로 전송 (Axios나 fetch 사용)
-            const res = await fetch('/api/upload-canvas', {
+            const res = await fetch('/api/order', {
                 method: 'POST',
                 body: formData, // Multipart FormData 전송
             });
