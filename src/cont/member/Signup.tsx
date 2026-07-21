@@ -59,6 +59,7 @@ const Signup: React.FC = () => {
   // 이메일 중복 확인
   const idCheck = async () => {
     if (!form.email) {
+      console.log(form.email);
       alert('이메일을 입력해주세요.');
       return;
     }
@@ -197,7 +198,7 @@ const Signup: React.FC = () => {
 
       if (res.status === 200 || res.data.success) {
         alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
-        navigate('/login');
+        navigate('/user/login');
       }
     } catch (error) {
       alert('회원가입 처리 중 오류가 발생했습니다.');
