@@ -11,6 +11,8 @@ import Order from '../cont/order/Order'
 import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
+
+import Sal from '../cont/product/Product'
 import UpCommunityForm from '../cont/community/UpCommunityForm'
 
 import Inquirecomm from '../cont/inquiry/Inquirecomm'
@@ -60,47 +62,45 @@ const AppRoutes: React.FC = () => {
         // { path: '/위치(url)', element: <컴포넌트명 />},
         { path: '/', element: <Home /> },
 
-        // 회원 관련
-        { path: '/member', element: <Member /> },
-        { path: '/user/login', element: <Login /> }, 
-        { path: '/user/signup', element: <Signup /> },
+// 회원 관련
+{ path: '/member', element: <Member /> },
+{ path: '/user/login', element: <Login /> },
+{ path: '/user/signup', element: <Signup /> },
 
-        // 도서 재고 관리
-        { path: "/", element: <Home />, },
-        { path: "/management", element: <Form /> },
-        { path: "/management/form", element: <Form /> },
-        { path: "/management/list", element: <List /> },
-        { path: "/management/detail/:bookId", element: <Detail /> },
-        { path: "/management/form2/:bookId", element: <Form2 /> },
+// 도서 재고 관리
+{ path: "/", element: <Home /> },
+{ path: "/management", element: <Form /> },
+{ path: "/management/form", element: <Form /> },
+{ path: "/management/list", element: <List /> },
+{ path: "/management/detail/:bookId", element: <Detail /> },
+{ path: "/management/form2/:bookId", element: <Form2 /> },
 
-        // { path: '/notice', element: <Notice />},
-        { path: '/order', element: <Order /> },
-        { path: '/revenue', element: <Revenue /> },
+// 기타
+// { path: '/notice', element: <Notice /> },
+{ path: '/order', element: <Order /> },
+{ path: '/revenue', element: <Revenue /> },
+{ path: '/sal', element: <Sal /> },
 
-        { path: '/community', element: <Community /> },
-        { path: '/notice', element: <NoticeB /> },
-        { path: '/admin/noticejoin', element: <NoticeJoin /> },
-        { path: '/community/detail/:num', element: <CommunityDetail /> },
-        { path: '/communityform', element: <UpCommunityForm /> },
+// 커뮤니티
+{ path: '/community', element: <Community /> },
+{ path: '/notice', element: <NoticeB /> },
+{ path: '/admin/noticejoin', element: <NoticeJoin /> },
+{ path: '/community/detail/:num', element: <CommunityDetail /> },
+{ path: '/communityform', element: <UpCommunityForm /> },
 
-        { path: '/inquiry', element: <InquireList /> },
-        { path: '/Inquirecomm', element: <Inquirecomm /> },
-        { path: '/InquireForm', element: <InquireForm /> },
-        { path: '/InquireDetail', element: <InquireDetail /> },
+// 문의
+{ path: '/inquiry', element: <InquireList /> },
+{ path: '/Inquirecomm', element: <Inquirecomm /> },
+{ path: '/InquireForm', element: <InquireForm /> },
+{ path: '/InquireDetail', element: <InquireDetail /> },
 
+// 관리자
+{ path: '/admin/member', element: <Members /> },
+{ path: '/admin', element: <Admin /> },
 
-
-        { path: '/admin/member', element: <Members /> },
-        { path: '/admin', element: <Admin /> },
-
-        { path: '/community', element: <Community /> },
-        { path: '/communityform', element: <UpCommunityForm /> }
-
-
-        // <Route path="/login" element={<Login />} />
-        // <Route path="/signup" element={<Signup />} />
-        // <Route path="/dashboard" element={<Dashboard />} />
-
+// <Route path="/login" element={<Login />} />
+// <Route path="/signup" element={<Signup />} />
+// <Route path="/dashboard" element={<Dashboard />} />
 
     ];
     return (
