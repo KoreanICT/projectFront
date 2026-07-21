@@ -123,8 +123,3 @@
 .textarea {
   resize: none;
 }
-
-.questionsContainer {
-  margin-bottom: 10px !important;
-  align-self: flex-end;
-}

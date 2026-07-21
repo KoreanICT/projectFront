@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import style from './survey.module.css'; 
 
 interface SurveyData {
-  code : number,
-  contents : {},
+  result : {},
   request? : any
 }
 
@@ -21,11 +20,12 @@ const SurveyAddForm: React.FC = () => {
     setSurveyTitles(newRatings);
   };
   useEffect(() => {
-    
+    /*backend의 survey_Questions 로부터 questions_text, survey로부터 code를 받아올 것. */
   },[])
   const surveySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      //이후 json을 통해 질문이 배열 형태로 ..연산자를 통하여 fixedQuestions 배열 내에 들어갈 수 있게끔
       const fixedQuestions = [
         "도서 검색 및 데이터 처리 속도에 만족하십니까?",
         "메뉴 구성과 화면 디자인이 사용하기 편리했습니까?",
@@ -36,8 +36,8 @@ const SurveyAddForm: React.FC = () => {
       ];
 
       const surveyData:SurveyData = {
-        code: 6, 
-        contents: fixedQuestions.map((q, index) => ({
+        //code: 5, //code는 관리자 페이지에서 평가항목 수정에 의해 정해진 code(갯수)
+        result: fixedQuestions.map((q, index) => ({
         surveytitle: `${q} [기본 설정 평점: ${surveyTitles[index]}점]`, 
         })),
         request:req
@@ -45,12 +45,12 @@ const SurveyAddForm: React.FC = () => {
       
       const response = await axios.post(`${backendUrl}/api/survey/addsurvey`, surveyData);
       if(response.status === 200){
-        alert("설문이 등록 되었습니다.");
+        alert("평가해 주셔서 감사합니다. 여러분들의 평가는 저희의 발전의 원동력이 됩니다.");
         navigate(-1);
       } 
     } catch (error) {
       console.error("Error :", error);
-      alert("설문 등록에 실패했습니다.");
+      alert("평가 등록에 실패하였습니다. 잠시 후 다시 시도해주십시오.");
     }
   };
 
@@ -65,7 +65,7 @@ const SurveyAddForm: React.FC = () => {
           
           {/* 제목 */}
           <div className="card-header bg-dark text-white fw-bold py-3 text-center">
-             (회사로고)프로그램 만족도 조사
+            (회사로고)프로그램 만족도 조사
           </div>
 
           {/* 설문문항 */}
@@ -104,9 +104,10 @@ const SurveyAddForm: React.FC = () => {
 
               </li>
             ))}
+            {/*추가적인 요청 사항 텍스트 박스*/}
             <li className="list-group-item p-4 bg-white d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
               <div className={style.textareaContainer}>
-                <p className="fw-bold text-dark flex-grow-1">6. 추가로 요청하실 사안이 있으시다면 자유롭게 작성해주세요.</p>
+                <p className="fw-bold text-dark flex-grow-1">6. 추가로 요청하실 사안이 있으시다면 자유롭게 작성해주세요.</p>{/*숫자 6은 code를 받고 +1 시킬 것. */}
                 <textarea
                   className={style.textarea}
                   rows={8}

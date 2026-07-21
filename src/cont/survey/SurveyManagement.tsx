@@ -24,7 +24,7 @@ const SurveyManagement: React.FC = () => {
                 onClick={() => navigate("/admin/surveyupdate")}
                 className={styles.transbtn}
             >
-                평가항목 관리
+                평가항목 수정
             </button>
             <div className={styles.resultContainer}>
                 <h3>평가 결과</h3>
