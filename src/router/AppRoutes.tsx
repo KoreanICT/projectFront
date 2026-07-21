@@ -74,6 +74,8 @@ const AppRoutes: React.FC = () => {
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         { path: '/revenue', element: <Revenue/>},
+
+        { path: '/sal', element: <Sal/>},
         { path: '/community', element: <Community/>},
         {path: '/notice', element: <NoticeB />},
         {path: '/admin/noticejoin', element: <NoticeJoin />},
