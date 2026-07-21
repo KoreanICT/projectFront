@@ -30,6 +30,10 @@ import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
+import SurveyAddForm from '../cont/survey/SurveyAddForm'
+import SurveyManagement from '../cont/survey/SurveyManagement'
+import SurveyUpdate from '../cont/survey/SurveyUpdate'
+
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -60,26 +64,50 @@ const AppRoutes: React.FC = () => {
     const routeList = [
         // ************************ 사용법 ************************
         // { path: '/위치(url)', element: <컴포넌트명 />},
-        { path: '/', element: <Home /> },
+        { path: '/', element: <Home />},
+        // 도서 재고 관리
+        {path: "/",element: <Home />,},
+        { path: "/management", element: <Form /> },
+        { path: "/management/form", element: <Form /> },
+         { path: "/management/list", element: <List /> },
+        { path: "/management/detail/:bookId", element: <Detail /> },
+        { path: "/management/form2/:bookId", element: <Form2 /> },
+        
+        { path: '/member', element: <Member />},
+        // { path: '/notice', element: <Notice />},
+        { path: '/order', element: <Order />},
+        { path: '/user/login', element: <Login/>},
+        { path: '/user/signup', element: <Signup />},
+        { path: '/revenue', element: <Revenue/>},
+      
+        { path: '/community', element: <Community/>},
+        {path: '/notice', element: <NoticeB />},
+        {path: '/admin/noticejoin', element: <NoticeJoin />},
+        { path: '/community/detail/:num', element: <CommunityDetail />},
+        { path: '/communityform', element: <UpCommunityForm/>},
+      
+        { path: '/inquiry', element: <InquireList/>},
+        { path: '/Inquirecomm', element: <Inquirecomm/>},
+        { path: '/InquireForm', element: <InquireForm/>},
+        { path: '/InquireDetail', element: <InquireDetail/>},
 
-// 회원 관련
-{ path: '/member', element: <Member /> },
-{ path: '/user/login', element: <Login /> },
-{ path: '/user/signup', element: <Signup /> },
 
-// 도서 재고 관리
-{ path: "/", element: <Home /> },
-{ path: "/management", element: <Form /> },
-{ path: "/management/form", element: <Form /> },
-{ path: "/management/list", element: <List /> },
-{ path: "/management/detail/:bookId", element: <Detail /> },
-{ path: "/management/form2/:bookId", element: <Form2 /> },
 
-// 기타
-// { path: '/notice', element: <Notice /> },
-{ path: '/order', element: <Order /> },
-{ path: '/revenue', element: <Revenue /> },
-{ path: '/sal', element: <Sal /> },
+        { path: '/admin/member', element: <Members />},
+        { path: '/admin', element: <Admin />},
+        
+        { path: '/community', element: <Community />},
+        { path: '/communityform', element: <UpCommunityForm/>},
+
+        { path: '/survey', element: <SurveyAddForm />},
+        { path: '/admin/surveymanagement', element: <SurveyManagement />},
+        { path: '/admin/surveyupdate', element: <SurveyUpdate />}
+
+
+
+        // <Route path="/login" element={<Login />} />
+        // <Route path="/signup" element={<Signup />} />
+        // <Route path="/dashboard" element={<Dashboard />} />
 
 // 커뮤니티
 { path: '/community', element: <Community /> },
