@@ -30,6 +30,8 @@ import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
+import MyPage from '../cont/mypage/mypage'
+import ProfileEditPage from '../cont/mypage/profileeditpage'
 import SurveyAddForm from '../cont/survey/SurveyAddForm'
 import SurveyManagement from '../cont/survey/SurveyManagement'
 import SurveyUpdate from '../cont/survey/SurveyUpdate'
@@ -98,6 +100,8 @@ const AppRoutes: React.FC = () => {
         
         { path: '/community', element: <Community />},
         { path: '/communityform', element: <UpCommunityForm/>},
+        { path: '/mypage', element: <MyPage />},
+        { path: '/profileeditpage', element: <ProfileEditPage/>},
 
         { path: '/survey', element: <SurveyAddForm />},
         { path: '/admin/surveymanagement', element: <SurveyManagement />},
