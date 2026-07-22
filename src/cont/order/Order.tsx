@@ -1,16 +1,73 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Stayle from './order.module.css'
-import MyCanvasPage from './Signature'
+import Signature from './Signature'
 
-interface order_form{
-  registration_number :number; //발주등록번호
 
+
+//발주테이블, 서명을 이미지로 받을 컬럼 수정해야함 지금 없음
+export interface OrderForm {
+  oname: string;
+  oaddr: string;
+  ophone: string;
+  ofdate: string;
+  ofcompany: string;
+  orderItem: OrderItem[];
 }
 
+interface OrderItem {
+  oiname: string;
+  oiprice: number;
+  oiamount: number;
+  oipublisher: string;
+}
 
 const Order: React.FC = () => {
+  //-------Form--------------------------------
+  const [orderForm, setOrderForm] = useState<OrderForm | null>(null);
+  const [oname, setOname] = useState<string>('');
+  const [oaddr, setOaddr] = useState<string>('');
+  const [ofcompany, setOfcompany] = useState<string>('');
+  const [ophone, setOphone] = useState<string>('');
+  const [ofdate, setOfdate] = useState<string>('');
 
 
+  //-----------Item---------------------------
+  const [orderItem, setOrderItem] = useState<OrderItem[]>([]);
+
+
+  const [oiname, setOiname] = useState<string>('');
+  const [oipublisher, setOipublisher] = useState<string>('');
+  const [oiprice, setOiprice] = useState<number>(0);
+  const [oiamount, setOiamount] = useState<number>(0);
+
+  const itmeList = () => {
+    const inputRowList = {
+      oiname: oiname,
+      oiprice: oiprice,
+      oipublisher: oipublisher,
+      oiamount: oiamount
+    }
+
+    setOrderItem([...orderItem, inputRowList]);
+    setOiname('');
+    setOipublisher('');
+    setOiprice(0);
+    setOiamount(0);
+  }
+
+  useEffect(() => {
+    const assembledForm = {
+      oname: oname,
+      oaddr: oaddr,
+      ophone: ophone,
+      ofdate: ofdate,
+      ofcompany: ofcompany,
+      orderItem: orderItem,
+    };
+    setOrderForm(assembledForm);
+  }, [orderItem]);
+
+  console.log(orderForm);
   return (
     <div>
       <div className={Stayle.header_container}>
@@ -21,11 +78,11 @@ const Order: React.FC = () => {
         <div className={Stayle.header_container}>
           <div className={Stayle.header_container_text_right}>
             <ul className={Stayle.header_container_li}>
-              <li>대표자 : <input type="text" name='representativeName' /></li>
-              <li>주소 : <input type="text" name='address' /></li>
-              <li>상호명 : <input type="text" name='businessName' /></li>
-              <li>연락처 : <input type="text" name='phonNumber' /></li>
-              <li>발주일 : <input type="date" name='orderDate' /></li>
+              <li>대표자 : <input type="text" name='oname' onChange={(e) => setOname(e.target.value)} /></li>
+              <li>주소 : <input type="text" name='oaddr' onChange={(e) => setOaddr(e.target.value)} /></li>
+              <li>법인명 : <input type="text" name='ofcompany' onChange={(e) => setOfcompany(e.target.value)} /></li>
+              <li>연락처 : <input type="text" name='ophone' onChange={(e) => setOphone(e.target.value)} /></li>
+              <li>발주일 : <input type="date" name='ofdate' onChange={(e) => setOfdate(e.target.value)} /></li>
             </ul>
           </div>
           <div className={Stayle.header_container_text_left}>
@@ -37,14 +94,11 @@ const Order: React.FC = () => {
             <li>발주일 : <input type="text" name='date' /></li>
           </ul> */}
 
-            <MyCanvasPage />
+            <Signature order={orderForm}/>
             {/* <input type="button" name='date'>발주하기</input> */}
           </div>
         </div>
-
-
-
-        <table className={Stayle.Table}>
+        <table >
           <thead>
             <tr>
               <th>도서명</th>
@@ -56,13 +110,22 @@ const Order: React.FC = () => {
           </thead>
           <tbody>
             <tr>
-              <th><input type="text"></input></th>
-              <th><input type="text"></input></th>
-              <th><input type="text"></input></th>
-              <th>tsx영역, 단가x수량만큼의 값을 출력</th>
-              <th><input type="text"></input></th>
+              <th><input type="text" name='oiname' onChange={(e) => setOiname(e.target.value)} /></th>
+              <th><input type="text" name='oipublisher' onChange={(e) => setOipublisher(e.target.value)} /></th>
+              <th><input type="number" name='oiprice' onChange={(e) => setOiprice(Number(e.target.value))} /></th>
+              <th>{oiprice * oiamount} 원</th>
+              <th><input type="number" name='oiamount' onChange={(e) => setOiamount(Number(e.target.value))} /></th>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <th colSpan={5}>
+                <button type="button" onClick={itmeList}>
+                  주문리스트 추가!
+                </button>
+              </th>
+            </tr>
+          </tfoot>
         </table>
       </form>
     </div>
