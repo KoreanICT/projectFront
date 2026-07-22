@@ -3,9 +3,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from './survey.module.css'; 
 
-interface SurveyData {
+interface SubmitData {
   result : {},
   request? : any
+}
+
+interface SurveyData {
+  svnum : number,
+  code : number,
+  sub : string,
+  questions : []
 }
 
 const SurveyAddForm: React.FC = () => {
@@ -14,14 +21,23 @@ const SurveyAddForm: React.FC = () => {
   const [surveyTitles, setSurveyTitles] = useState<number[]>(Array(5).fill(0)); 
   const navigate = useNavigate();
   const backendUrl = process.env.REACT_APP_BACK_END_URL;
+
+  const [surveyRespData,setSurveyRespData] = useState<SurveyData>();
+  const [questions,setQuestions] = useState<[]>([]);
+
   const surveyRatingChange = (index: number, score: number) => {
     const newRatings = [...surveyTitles];
     newRatings[index] = score;
     setSurveyTitles(newRatings);
   };
+
   useEffect(() => {
-    /*backend의 survey_Questions 로부터 questions_text, survey로부터 code를 받아올 것. */
+    /*backend의 survey_Questions 로부터 questions_text, survey로부터 code,svnum을 받아올 것.
+      개인의 mnum을 가져올 것.
+    */
+    //const resquest = await axios.get(`${backendUrl}/api/survey/selectSurvey`, surveyRespData)
   },[])
+
   const surveySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -34,8 +50,9 @@ const SurveyAddForm: React.FC = () => {
         "향후 이 프로그램을 지속적으로 사용할 의향이 있으십니까?",
         "기타 개선 사항이나 추가되었으면 하는 기능이 있다면 자유롭게 적어주세요. 추가"
       ];
+      //const fixedQuestions = [...[]]
 
-      const surveyData:SurveyData = {
+      const surveyData:SubmitData = {
         //code: 5, //code는 관리자 페이지에서 평가항목 수정에 의해 정해진 code(갯수)
         result: fixedQuestions.map((q, index) => ({
         surveytitle: `${q} [기본 설정 평점: ${surveyTitles[index]}점]`, 

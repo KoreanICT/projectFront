@@ -123,7 +123,7 @@ const Login: React.FC = () => {
       {/* 하단 회원가입 이동 링크 */}
       <div className="login-footer" style={{ marginTop: '20px', textAlign: 'center' }}>
         <span className="footer-text" style={{ color: '#666', marginRight: '5px' }}>아직 회원이 아니신가요?</span>
-        <a href="/signup" className="signup-link" style={{ color: '#0360d9', fontWeight: 'bold', textDecoration: 'none' }}>회원가입하기</a>
+        <a href="/user/signup" className="signup-link" style={{ color: '#0360d9', fontWeight: 'bold', textDecoration: 'none' }}>회원가입하기</a>
       </div>
     </div>
   );
