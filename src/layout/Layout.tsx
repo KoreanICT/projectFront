@@ -120,6 +120,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     공지 등록
                   </NavLink>
                 </li>
+
+                <li>
+                  <NavLink to="/admin/surveymanagement" className={linkClass}>
+                    평가 관리
+                  </NavLink>
+                </li>
               </ul>
             </aside>
 

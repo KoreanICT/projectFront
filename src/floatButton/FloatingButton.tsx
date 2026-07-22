@@ -4,6 +4,18 @@ import style from "./floatingButton.module.css";
 const FloatingButton = () => {
     return (
         <div className={style.floatingContainer}>
+            {/* {scheck || <Link to="/survey" className={style.floatingButton}>
+                설문
+            </Link>}
+                만약 scheck가 false라면 설문조사를 1달 이내로 하지않았다는 것이므로 설문조사 버튼이 구현되어야 하고,
+                true라면 설문조사를 1달 이내로 하였다는 것이므로 설문조사 버튼이 구현되지 않아야 한다.
+            */}
+
+            <Link to="/survey" className={style.floatingButton}>
+                평가
+            </Link>
+            
+
             <Link to="/inquiry" className={style.floatingButton}>
                 문의
             </Link>

@@ -30,6 +30,12 @@ import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
+import MyPage from '../cont/mypage/mypage'
+import ProfileEditPage from '../cont/mypage/profileeditpage'
+import SurveyAddForm from '../cont/survey/SurveyAddForm'
+import SurveyManagement from '../cont/survey/SurveyManagement'
+import SurveyUpdate from '../cont/survey/SurveyUpdate'
+
 
 // 라우터란
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -75,6 +81,10 @@ const AppRoutes: React.FC = () => {
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         { path: '/revenue', element: <Revenue/>},
+<<<<<<< HEAD
+=======
+      
+>>>>>>> d50666c26f8e6c96fc0541df50b4d410602bc4ab
         { path: '/community', element: <Community/>},
         {path: '/notice', element: <NoticeB />},
         {path: '/admin/noticejoin', element: <NoticeJoin />},
@@ -92,13 +102,40 @@ const AppRoutes: React.FC = () => {
         { path: '/admin', element: <Admin />},
         
         { path: '/community', element: <Community />},
-        { path: '/communityform', element: <UpCommunityForm/>}
+        { path: '/communityform', element: <UpCommunityForm/>},
+        { path: '/mypage', element: <MyPage />},
+        { path: '/profileeditpage', element: <ProfileEditPage/>},
+
+        { path: '/survey', element: <SurveyAddForm />},
+        { path: '/admin/surveymanagement', element: <SurveyManagement />},
+        { path: '/admin/surveyupdate', element: <SurveyUpdate />},
+
 
 
         // <Route path="/login" element={<Login />} />
         // <Route path="/signup" element={<Signup />} />
         // <Route path="/dashboard" element={<Dashboard />} />
 
+// 커뮤니티
+{ path: '/community', element: <Community /> },
+{ path: '/notice', element: <NoticeB /> },
+{ path: '/admin/noticejoin', element: <NoticeJoin /> },
+{ path: '/community/detail/:num', element: <CommunityDetail /> },
+{ path: '/communityform', element: <UpCommunityForm /> },
+
+// 문의
+{ path: '/inquiry', element: <InquireList /> },
+{ path: '/Inquirecomm', element: <Inquirecomm /> },
+{ path: '/InquireForm', element: <InquireForm /> },
+{ path: '/InquireDetail', element: <InquireDetail /> },
+
+// 관리자
+{ path: '/admin/member', element: <Members /> },
+{ path: '/admin', element: <Admin /> },
+
+// <Route path="/login" element={<Login />} />
+// <Route path="/signup" element={<Signup />} />
+// <Route path="/dashboard" element={<Dashboard />} />
 
     ];
     return (
@@ -107,7 +144,7 @@ const AppRoutes: React.FC = () => {
                 routeList.map((route, idx) => (
                     <Route key={idx} {...route} />
                 ))}
-            
+
         </Routes>
     );
 };
