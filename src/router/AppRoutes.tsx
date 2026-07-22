@@ -12,7 +12,6 @@ import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
 
-import Sal from '../cont/product/Product'
 import UpCommunityForm from '../cont/community/UpCommunityForm'
 
 import Inquirecomm from '../cont/inquiry/Inquirecomm'
@@ -35,6 +34,7 @@ import ProfileEditPage from '../cont/mypage/profileeditpage'
 import SurveyAddForm from '../cont/survey/SurveyAddForm'
 import SurveyManagement from '../cont/survey/SurveyManagement'
 import SurveyUpdate from '../cont/survey/SurveyUpdate'
+import Product from '../cont/product/Product'
 
 
 // 라우터란?
@@ -71,11 +71,12 @@ const AppRoutes: React.FC = () => {
         {path: "/",element: <Home />,},
         { path: "/management", element: <Form /> },
         { path: "/management/form", element: <Form /> },
-         { path: "/management/list", element: <List /> },
+        { path: "/management/list", element: <List /> },
         { path: "/management/detail/:bookId", element: <Detail /> },
         { path: "/management/form2/:bookId", element: <Form2 /> },
         
         { path: '/member', element: <Member />},
+        { path: '/product', element: <Product/>},
         // { path: '/notice', element: <Notice />},
         { path: '/order', element: <Order />},
         { path: '/user/login', element: <Login/>},
