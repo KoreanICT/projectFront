@@ -61,16 +61,15 @@ const InquireForm: React.FC = () => {
            Writer =>${formData.writer}`);
         //-여기까지 useState에 저장된 값을 찾아와서 다시 FormData에 모든 값을 저장
         try {
-            //파일 업로드 시 폼의 속성 예 => encType='multipart/form-data'
-            //무조건 post방식이다. *****
-            //axios.post(url,data,[{header}])
-            //postman에서 테스트한 주소를 복사해서 붙여 넣기 <---
             const url =`${backendUrl}/upboard/upboardAdd`;
             await axios.post(url,data,{
                 headers:{'Content-Type':'multipart/form-data'}
             });
+
+
             //오류가 없으면 리스트로 이동 
             navigate('/inquiry');
+
         } catch (error) {
              console.log(`Erro =>${error}`);
         }
@@ -117,8 +116,6 @@ const InquireForm: React.FC = () => {
                             />
                         </td>
                     </tr>
-                    {/* 이미지 미리보기 구현 */}
-                    {/* { preview && ()} : useState에 존재할 때만 랜더링 시킨다      */}
                     { preview && (
 
                     <tr>
