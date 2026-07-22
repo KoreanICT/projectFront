@@ -55,6 +55,13 @@ const DropdownNav: React.FC = () => {
                     커뮤니티
                 </NavLink>
             </div>
+
+            {/* 6. 마이페이지 */}
+            <div className={style.navItem}>
+                <NavLink to="/mypage" className={linkClass}>
+                    마이페이지
+                </NavLink>
+            </div>
         </nav>
     );
 };
