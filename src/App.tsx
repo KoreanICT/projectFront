@@ -11,13 +11,13 @@ const App: React.FC = () => {
   
 
   return (
-    <AuthProvider>
     <Router>
+    <AuthProvider>
         <Layout>
           <AppRoutes />
         </Layout>
-    </Router>
     </AuthProvider>
+    </Router>
   );
 };
 
