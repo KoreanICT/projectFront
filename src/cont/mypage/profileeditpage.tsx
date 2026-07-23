@@ -554,7 +554,7 @@ const ProfileEditPage = () => {
                                                     </div>
 
                                                     <p className="small text-secondary mt-3 mb-0">
-                                                        원서접수, 자격증 발급 등 주요 안내를
+                                                        재고조회, 매출조회 등 주요 안내를
                                                         휴대전화 문자로 받아볼 수 있습니다.
                                                     </p>
                                                 </div>
