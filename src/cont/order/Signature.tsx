@@ -2,10 +2,13 @@ import { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import Stayle from './order.module.css'
 import { OrderForm } from './Order';
+import axios from 'axios';
 
 interface SignatureProps {
     order: OrderForm | null;
 }
+
+const backendUrl = process.env.REACT_APP_BACK_END_URL;
 
 export default function Signature({ order }: SignatureProps) {
     // useRef에 SignatureCanvas 타입을 명시하고 초기값을 null로 지정
@@ -20,7 +23,7 @@ export default function Signature({ order }: SignatureProps) {
             alert("서명확인");
             return;
         }
-        
+
         if (!order) {
             alert("주문서 정보가 없습니다.");
             return;
@@ -44,10 +47,13 @@ export default function Signature({ order }: SignatureProps) {
 
             formData.append('signature', blob, fileName); // 백엔드에서 'signature'이라는 이름으로 받음
             if (order) {
-                formData.append('order', JSON.stringify(order));
+                formData.append(
+                    'order',
+                    new Blob([JSON.stringify(order)], { type: 'application/json' })
+                );
             }
             // 백엔드로 전송 (Axios나 fetch 사용)
-            const res = await fetch('/api/order', {
+            const res = await fetch(`${backendUrl}/api/order`, {
                 method: 'POST',
                 body: formData, // Multipart FormData 전송
             });
