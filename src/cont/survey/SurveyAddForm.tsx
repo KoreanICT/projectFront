@@ -60,7 +60,7 @@ const SurveyAddForm: React.FC = () => {
         request:req
       };
       
-      const response = await axios.post(`${backendUrl}/api/survey/addsurvey`, surveyData);
+      const response = await axios.post(`${backendUrl}/api/survey/addResult`, surveyData);
       if(response.status === 200){
         alert("평가해 주셔서 감사합니다. 여러분들의 평가는 저희의 발전의 원동력이 됩니다.");
         navigate(-1);
