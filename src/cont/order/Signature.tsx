@@ -2,19 +2,7 @@ import { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import Stayle from './order.module.css'
 import { OrderForm } from './Order';
-/*
-    미래를 위한 주석
 
-    const formData = new FormData();
-    // 1. 부모에게 받은 텍스트 데이터 쑤셔넣기
-    formData.append('textData', JSON.stringify(parentData)); 
-    // 2. 3번에서 만든 서명 이미지 파일 쑤셔넣기
-    formData.append('file', signatureBlob);
-
-    서명이미지파일과, Order에서 받아온 파라미터를 하나의 객체에 넣으면
-    이미지파일이 깨질 가능성이높음
-    다라서 제이슨에 별도의 키(객체)로써 저장 후 MultipartFile로 받아야함
-*/
 interface SignatureProps {
     order: OrderForm | null;
 }
