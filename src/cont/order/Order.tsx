@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Stayle from './order.module.css'
 import Signature from './Signature'
+import axios from 'axios';
 
 
 
 //발주테이블, 서명을 이미지로 받을 컬럼 수정해야함 지금 없음
 export interface OrderForm {
+  mnum: string;
   oname: string;
   oaddr: string;
   ophone: string;
@@ -21,10 +23,13 @@ interface OrderItem {
   oipublisher: string;
 }
 
+const BackendUrl = process.env.REACT_APP_BACK_END_URL;
+
 const Order: React.FC = () => {
   //-------Form--------------------------------
   const [orderForm, setOrderForm] = useState<OrderForm | null>(null);
   const [oname, setOname] = useState<string>('');
+  const [mnum, setMnum] = useState<string>('');
   const [oaddr, setOaddr] = useState<string>('');
   const [ofcompany, setOfcompany] = useState<string>('');
   const [ophone, setOphone] = useState<string>('');
@@ -56,7 +61,23 @@ const Order: React.FC = () => {
   }
 
   useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${BackendUrl}/api/login/session`, {
+          withCredentials: true,
+        });
+        setMnum(res.data.mnum);
+      } catch (error) {
+        console.error("세션 조회 실패(mnum), 더미데이터로 대체합니다(mnum : 5):", error);
+        setMnum('5');
+      }
+    })();
+  }, []);
+
+
+  useEffect(() => {
     const assembledForm = {
+      mnum: mnum,
       oname: oname,
       oaddr: oaddr,
       ophone: ophone,
@@ -94,7 +115,7 @@ const Order: React.FC = () => {
             <li>발주일 : <input type="text" name='date' /></li>
           </ul> */}
 
-            <Signature order={orderForm}/>
+            <Signature order={orderForm} />
             {/* <input type="button" name='date'>발주하기</input> */}
           </div>
         </div>
