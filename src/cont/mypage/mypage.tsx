@@ -20,9 +20,9 @@ const MyPage: React.FC = () => {
   const userInfo: UserInfo = {
     nickname: '닉네임',
     name: '홍길동',
-    grade: '우수 회원',
+    grade: 'A등급',
     location: '매장의 위치가 들어갈 자리입니다',
-    joinDate: '2026-07-10',
+    joinDate: '2026-04-15',
     postCount: 0,
     commentCount: 0,
   };
