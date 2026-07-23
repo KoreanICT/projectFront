@@ -3,7 +3,7 @@ import style from "./floatingButton.module.css";
 
 const FloatingButton = () => {
     return (
-        <div className={style.floatingContainer}>
+        <div className={style.floatingContainer} style={{ textAlign: 'center' }}>
             {/* {scheck || <Link to="/survey" className={style.floatingButton}>
                 설문
             </Link>}
@@ -18,6 +18,10 @@ const FloatingButton = () => {
 
             <Link to="/inquiry" className={style.floatingButton}>
                 문의
+            </Link>
+
+            <Link to="/mypage" className={style.floatingButton}>
+                마이<br/>페이지
             </Link>
 
             <button

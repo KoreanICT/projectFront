@@ -1,12 +1,51 @@
-import React from 'react'
+import React from 'react';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper";
 
-const Home: React.FC = () => {
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+
+const Home = () => {
+  const banners = [
+    {
+      id: 1,
+      image: "/images/book1.png",
+    },
+    {
+      id: 2,
+      image: "/images/book2.png",
+    },
+    {
+      id: 3,
+      image: "/images/book3.png",
+    },
+  ];
+
   return (
-    <div>
-      <h1>Home 입니다.</h1>
-      <p>Home 작업 중 ~</p>
-    </div>
-  )
-}
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay]}
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 3000 }}
+      loop
+    >
+      {banners.map((banner) => (
+        <SwiperSlide key={banner.id}>
+          <img
+            src={banner.image}
+            alt="배너"
+            style={{
+              width: "100%",
+              height: "400px",
+              objectFit: "cover",
+            }}
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+};
 
-export default Home
+export default Home;
