@@ -1,85 +1,114 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DaumPostcode, { Address } from 'react-daum-postcode';   // npm install react-daum-postcode 설치하면 됨
+import { QRCodeSVG } from 'qrcode.react';   // npm install qrcode.react 설치하면 됨
+import axios from 'axios';
 
 interface ProfileForm {
-    loginId: string;
+    id: string;
+    nick: string;
     name: string;
-    birthDate: string;
-    gender: string;
-    nationality: string;
-    lastName: string;
-    firstName: string;
+    grade: string;
+    storecode: string;
+    storeaddr: string;
+    storeaddrDetail: string;
     phoneFirst: string;
     phoneMiddle: string;
     phoneLast: string;
-    areaCode: string;
-    telephoneMiddle: string;
-    telephoneLast: string;
     email: string;
     smsAgree: boolean;
     emailAgree: boolean;
+    regdate: string;
 }
 
 const ProfileEditPage = () => {
     const navigate = useNavigate();
+    const BACK_URL = process.env.REACT_APP_BACK_END_URL;
 
     const [loading, setLoading] = useState(true);
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+
+    // 닉네임 수정 상태 관리
+    const [isEditingNick, setIsEditingNick] = useState(false);
+    const [tempNick, setTempNick] = useState('');
 
     const [form, setForm] = useState<ProfileForm>({
-        loginId: '',
+        id: '',
+        nick: '',
         name: '',
-        birthDate: '',
-        gender: '',
-        nationality: '',
-        lastName: '',
-        firstName: '',
+        grade: '',
+        storecode: '',
+        storeaddr: '',
+        storeaddrDetail: '',
         phoneFirst: '010',
         phoneMiddle: '',
         phoneLast: '',
-        areaCode: '02',
-        telephoneMiddle: '',
-        telephoneLast: '',
         email: '',
         smsAgree: false,
         emailAgree: false,
+        regdate: ''
     });
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                // TODO: 실제 회원정보 조회 API로 교체
-                // const response = await memberService.getMyProfile();
+    // 임의의 영어+숫자 조합 지점코드 생성 함수 (예: ST-8F92A0X1)
+    const generateRandomStoreCode = () => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = 'ST-';
+        for (let i = 0; i < 8; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+    };
 
-                const profile: ProfileForm = {
-                    loginId: 'pkwed1206',
-                    name: '홍길동',
-                    birthDate: '2001년 10월 06일',
-                    gender: '남자',
-                    nationality: '내국인',
-                    lastName: 'HONG',
-                    firstName: 'GILDONG',
-                    phoneFirst: '010',
-                    phoneMiddle: '4532',
-                    phoneLast: '9516',
-                    areaCode: '02',
-                    telephoneMiddle: '',
-                    telephoneLast: '',
-                    email: 'pkwed1206@gmail.com',
-                    smsAgree: true,
-                    emailAgree: true,
-                };
+  useEffect(() => {
 
-                setForm(profile);
-            } catch (error) {
-                console.error('회원정보 조회 실패:', error);
-                alert('회원정보를 불러오지 못했습니다.');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchProfile = async () => {
 
-        fetchProfile();
-    }, []);
+        try {
+
+            const response = await axios.get(
+                `${BACK_URL}/api/member/mypage`,
+                {
+                    withCredentials:true
+                }
+            );
+
+
+            const member = response.data;
+
+
+            setForm({
+                id: member.id,
+                nick: member.nick,
+                name: member.name,
+                grade: member.grade,
+                storecode: member.storecode,
+                storeaddr: member.storeaddr,
+                storeaddrDetail:'',
+                phoneFirst:'010',
+                phoneMiddle:'',
+                phoneLast:'',
+                email:member.email,
+                smsAgree:false,
+                emailAgree:false,
+                regdate:member.regdate
+            });
+
+
+        } catch(error){
+
+            console.error(error);
+            alert("회원정보 조회 실패");
+
+        } finally {
+            setLoading(false);
+        }
+
+    };
+
+
+    fetchProfile();
+
+},[]);
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -115,20 +144,57 @@ const ProfileEditPage = () => {
         }));
     };
 
+    // 닉네임 수정 관련 이벤트 핸들러
+    const handleStartNickEdit = () => {
+        setTempNick(form.nick);
+        setIsEditingNick(true);
+    };
+
+    const handleSaveNick = () => {
+        if (!tempNick.trim()) {
+            alert('닉네임을 입력해주세요.');
+            return;
+        }
+
+        setForm((prev) => ({
+            ...prev,
+            nick: tempNick.trim(),
+        }));
+        setIsEditingNick(false);
+    };
+
+    const handleCancelNickEdit = () => {
+        setTempNick('');
+        setIsEditingNick(false);
+    };
+
+    // 카카오 우편번호 검색 완료 핸들러
+    const handleCompleteAddress = (data: Address) => {
+        let fullAddress = data.address;
+        let extraAddress = '';
+
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+                extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+            }
+            fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+        }
+
+        setForm((prev) => ({
+            ...prev,
+            storeaddr: fullAddress,
+        }));
+
+        setIsAddressModalOpen(false);
+    };
+
     const handleSubmit = async (
         event: React.FormEvent<HTMLFormElement>,
     ) => {
         event.preventDefault();
-
-        if (!form.lastName.trim()) {
-            alert('영문 성을 입력해주세요.');
-            return;
-        }
-
-        if (!form.firstName.trim()) {
-            alert('영문 이름을 입력해주세요.');
-            return;
-        }
 
         if (!form.phoneMiddle || !form.phoneLast) {
             alert('휴대전화 번호를 입력해주세요.');
@@ -140,22 +206,19 @@ const ProfileEditPage = () => {
             return;
         }
 
+        const fullStoreAddress = form.storeaddrDetail 
+            ? `${form.storeaddr} ${form.storeaddrDetail.trim()}`
+            : form.storeaddr;
+
         const requestData = {
-            lastName: form.lastName.trim(),
-            firstName: form.firstName.trim(),
+            nick: form.nick,
+            storecode: form.storecode,
+            storeaddr: fullStoreAddress,
             phone: [
                 form.phoneFirst,
                 form.phoneMiddle,
                 form.phoneLast,
             ].join('-'),
-            telephone:
-                form.telephoneMiddle && form.telephoneLast
-                    ? [
-                        form.areaCode,
-                        form.telephoneMiddle,
-                        form.telephoneLast,
-                    ].join('-')
-                    : '',
             email: form.email.trim(),
             smsAgree: form.smsAgree ? 'Y' : 'N',
             emailAgree: form.emailAgree ? 'Y' : 'N',
@@ -163,10 +226,6 @@ const ProfileEditPage = () => {
 
         try {
             console.log('회원정보 수정 요청:', requestData);
-
-            // TODO: 실제 회원정보 수정 API로 교체
-            // await memberService.updateMyProfile(requestData);
-
             alert('기본정보가 저장되었습니다.');
         } catch (error) {
             console.error('회원정보 수정 실패:', error);
@@ -238,21 +297,68 @@ const ProfileEditPage = () => {
                                     </h3>
 
                                     <div className="border rounded-3 overflow-hidden">
+                                        {/* 아이디 */}
                                         <div className="row g-0 border-bottom">
                                             <div className="col-md-3 bg-light px-4 py-3 fw-semibold">
                                                 아이디
                                             </div>
-
                                             <div className="col-md-9 px-4 py-3">
-                                                {form.loginId}
+                                                {form.id}
                                             </div>
                                         </div>
 
+                                        {/* 닉네임 (수정 가능 영역) */}
+                                        <div className="row g-0 border-bottom">
+                                            <div className="col-md-3 bg-light px-4 py-3 fw-semibold d-flex align-items-center">
+                                                닉네임
+                                            </div>
+                                            <div className="col-md-9 px-4 py-3">
+                                                {isEditingNick ? (
+                                                    <div className="d-flex align-items-center gap-2" style={{ maxWidth: '360px' }}>
+                                                        <input
+                                                            type="text"
+                                                            value={tempNick}
+                                                            onChange={(e) => setTempNick(e.target.value)}
+                                                            className="form-control form-control-sm"
+                                                            placeholder="새 닉네임 입력"
+                                                            maxLength={20}
+                                                            autoFocus
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleSaveNick}
+                                                            className="btn btn-primary btn-sm text-nowrap"
+                                                        >
+                                                            완료
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleCancelNickEdit}
+                                                            className="btn btn-outline-secondary btn-sm text-nowrap"
+                                                        >
+                                                            취소
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="d-flex align-items-center gap-3">
+                                                        <span>{form.nick}</span>
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleStartNickEdit}
+                                                            className="btn btn-outline-secondary btn-sm"
+                                                        >
+                                                            수정하기
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* 성명 */}
                                         <div className="row g-0 border-bottom">
                                             <div className="col-md-3 bg-light px-4 py-3 fw-semibold">
                                                 성명
                                             </div>
-
                                             <div className="col-md-9 px-4 py-3">
                                                 <div className="d-flex flex-wrap align-items-center gap-3">
                                                     <span>{form.name}</span>
@@ -272,33 +378,86 @@ const ProfileEditPage = () => {
                                             </div>
                                         </div>
 
+                                        {/* 멤버등급 */}
                                         <div className="row g-0 border-bottom">
                                             <div className="col-md-3 bg-light px-4 py-3 fw-semibold">
-                                                생년월일
+                                                멤버등급
                                             </div>
-
                                             <div className="col-md-9 px-4 py-3">
-                                                {form.birthDate}
+                                                <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+                                                    {form.grade}
+                                                </span>
                                             </div>
                                         </div>
 
+                                        {/* 지점 코드 & QR 코드 */}
                                         <div className="row g-0 border-bottom">
-                                            <div className="col-md-3 bg-light px-4 py-3 fw-semibold">
-                                                성별
+                                            <div className="col-md-3 bg-light px-4 py-3 fw-semibold d-flex align-items-center">
+                                                지점 코드
                                             </div>
-
                                             <div className="col-md-9 px-4 py-3">
-                                                {form.gender}
+                                                <div className="d-flex align-items-center gap-3">
+                                                    <span className="font-monospace fw-bold fs-5 text-dark">
+                                                        {form.storecode}
+                                                    </span>
+                                                    
+                                                    {form.storecode && (
+                                                        <div 
+                                                            className="p-1 bg-white border rounded d-inline-flex align-items-center justify-content-center shadow-sm"
+                                                            title={`QR 코드: ${form.storecode}`}
+                                                        >
+                                                            <QRCodeSVG 
+                                                                value={form.storecode} 
+                                                                size={42} 
+                                                                level="M" 
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
 
+                                        {/* 지점 주소 */}
+                                        <div className="row g-0 border-bottom">
+                                            <div className="col-md-3 bg-light px-4 py-3 fw-semibold">
+                                                지점 주소
+                                            </div>
+                                            <div className="col-md-9 px-4 py-3">
+                                                <div className="d-flex gap-2 mb-2">
+                                                    <input
+                                                        type="text"
+                                                        name="storeaddr"
+                                                        value={form.storeaddr}
+                                                        readOnly
+                                                        className="form-control bg-light"
+                                                        placeholder="주소 검색 버튼을 클릭하세요"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setIsAddressModalOpen(true)}
+                                                        className="btn btn-outline-primary text-nowrap"
+                                                    >
+                                                        주소 검색
+                                                    </button>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    name="storeaddrDetail"
+                                                    value={form.storeaddrDetail}
+                                                    onChange={handleChange}
+                                                    className="form-control"
+                                                    placeholder="상세주소를 입력해 주세요 (예: 101동 202호)"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* 가입날짜 */}
                                         <div className="row g-0">
                                             <div className="col-md-3 bg-light px-4 py-3 fw-semibold">
-                                                내국인 여부
+                                                가입날짜
                                             </div>
-
                                             <div className="col-md-9 px-4 py-3">
-                                                {form.nationality}
+                                                {form.regdate}
                                             </div>
                                         </div>
                                     </div>
@@ -309,55 +468,7 @@ const ProfileEditPage = () => {
                                         연락처 정보
                                     </h3>
 
-                                    <div className="row g-4">
-                                        <div className="col-12">
-                                            <label className="form-label fw-semibold">
-                                                영문 이름
-                                            </label>
-
-                                            <div className="row g-3">
-                                                <div className="col-md-6">
-                                                    <label
-                                                        htmlFor="lastName"
-                                                        className="form-label small text-secondary"
-                                                    >
-                                                        성(Last Name)
-                                                    </label>
-
-                                                    <input
-                                                        id="lastName"
-                                                        type="text"
-                                                        name="lastName"
-                                                        value={form.lastName}
-                                                        onChange={handleChange}
-                                                        maxLength={30}
-                                                        className="form-control"
-                                                        placeholder="예: LEE"
-                                                    />
-                                                </div>
-
-                                                <div className="col-md-6">
-                                                    <label
-                                                        htmlFor="firstName"
-                                                        className="form-label small text-secondary"
-                                                    >
-                                                        이름(First Name)
-                                                    </label>
-
-                                                    <input
-                                                        id="firstName"
-                                                        type="text"
-                                                        name="firstName"
-                                                        value={form.firstName}
-                                                        onChange={handleChange}
-                                                        maxLength={30}
-                                                        className="form-control"
-                                                        placeholder="예: JUHWA"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                    <div className="row g-3">
                                         <div className="col-12">
                                             <label
                                                 htmlFor="phoneFirst"
@@ -414,75 +525,6 @@ const ProfileEditPage = () => {
 
                                         <div className="col-12">
                                             <label
-                                                htmlFor="areaCode"
-                                                className="form-label fw-semibold"
-                                            >
-                                                일반 연락처
-                                            </label>
-
-                                            <div className="row g-2">
-                                                <div className="col-md-4">
-                                                    <select
-                                                        id="areaCode"
-                                                        name="areaCode"
-                                                        value={form.areaCode}
-                                                        onChange={handleChange}
-                                                        className="form-select"
-                                                    >
-                                                        <option value="02">02 서울</option>
-                                                        <option value="031">031 경기</option>
-                                                        <option value="032">032 인천</option>
-                                                        <option value="033">033 강원</option>
-                                                        <option value="041">041 충남</option>
-                                                        <option value="042">042 대전</option>
-                                                        <option value="043">043 충북</option>
-                                                        <option value="044">044 세종</option>
-                                                        <option value="051">051 부산</option>
-                                                        <option value="052">052 울산</option>
-                                                        <option value="053">053 대구</option>
-                                                        <option value="054">054 경북</option>
-                                                        <option value="055">055 경남</option>
-                                                        <option value="061">061 전남</option>
-                                                        <option value="062">062 광주</option>
-                                                        <option value="063">063 전북</option>
-                                                        <option value="064">064 제주</option>
-                                                    </select>
-                                                </div>
-
-                                                <div className="col-md-4">
-                                                    <input
-                                                        type="text"
-                                                        name="telephoneMiddle"
-                                                        value={form.telephoneMiddle}
-                                                        onChange={handleNumberChange}
-                                                        maxLength={4}
-                                                        inputMode="numeric"
-                                                        className="form-control"
-                                                        placeholder="0000"
-                                                    />
-                                                </div>
-
-                                                <div className="col-md-4">
-                                                    <input
-                                                        type="text"
-                                                        name="telephoneLast"
-                                                        value={form.telephoneLast}
-                                                        onChange={handleNumberChange}
-                                                        maxLength={4}
-                                                        inputMode="numeric"
-                                                        className="form-control"
-                                                        placeholder="0000"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <div className="form-text">
-                                                일반 연락처는 선택 입력 항목입니다.
-                                            </div>
-                                        </div>
-
-                                        <div className="col-12">
-                                            <label
                                                 htmlFor="email"
                                                 className="form-label fw-semibold"
                                             >
@@ -532,7 +574,7 @@ const ProfileEditPage = () => {
                                                     </div>
 
                                                     <p className="small text-secondary mt-3 mb-0">
-                                                        원서접수, 자격증 발급 등 주요 안내를
+                                                        재고조회, 매출조회 등 주요 안내를
                                                         휴대전화 문자로 받아볼 수 있습니다.
                                                     </p>
                                                 </div>
@@ -592,6 +634,31 @@ const ProfileEditPage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* 주소 검색 모달 */}
+            {isAddressModalOpen && (
+                <div
+                    className="modal show d-block"
+                    tabIndex={-1}
+                    style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+                >
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title fw-bold">주소 검색</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setIsAddressModalOpen(false)}
+                                ></button>
+                            </div>
+                            <div className="modal-body p-0">
+                                <DaumPostcode onComplete={handleCompleteAddress} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 };
