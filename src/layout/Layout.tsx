@@ -1,8 +1,11 @@
 import React from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import DropdownNav from './DropdownNav';
 import FloatingButton from '../floatButton/FloatingButton';
 import styles from "../cont/admin/adminManage.module.css"
+//import Navbar from '../components/navbar/Navbar'; /////
+import Navbar from './Navbar';/////
+import { useAuth } from '../comp/AuthProvider';//////
 // children : 컴포넌트의 여는 태그와 닫는 태그 사이에 들어가는 내용을 의미하는 props
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,6 +13,8 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 
+  const navigate = useNavigate();
+  const { isLoggedIn, logout  } = useAuth();
   const { pathname } = useLocation();
   // /user 로 시작하는 모든 페이지
   const isSimpleLayout = pathname.startsWith('/user');
@@ -61,22 +66,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </Link>
             </h1>
 
-            <div>
-              <Link to="/admin" className={styles.transbtn}>
+            <div className={styles.buttonContainer}>
+              <button type="button" className={styles.customBtn} onClick={() => navigate('/admin')}>
                 관리자 전환
-              </Link>
+              </button>
 
-              <Link to="/user/login" style={{ marginRight: '10px' }}>
+              {!isLoggedIn && (<>
+                  <button type="button" className={styles.customBtn} onClick={() => navigate('/user/login')}>
                 로그인
-              </Link>
+              </button>
 
-              <Link to="/user/signup">
+                  <button type="button" className={styles.customBtn} onClick={() => navigate('/user/signup')}>
                 회원가입
-              </Link>
+                </button></>
+              )}
+              {isLoggedIn && (
+                <button type="button" className={styles.customBtn} onClick={logout}>
+                로그아웃
+                </button>
+              )}
             </div>
           </header>
-
-          {(!adminLayout && !isSimpleLayout) && <DropdownNav />}
+          {(!adminLayout && !isSimpleLayout) && <Navbar />}
         </>
       ) : (
         <>
@@ -106,28 +117,38 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className={styles.admin_container}>
             {/* 사이드바 */}
             <aside className={styles.sidebar}>
-              <h3>관리자 메뉴</h3>
+              <div className={styles.sidebar_header}>
+                <h3>관리자 메뉴</h3>
+              </div>
 
-              <ul>
-                <li>
-                  <NavLink to="/admin/member" className={linkClass}>
-                    회원 관리
-                  </NavLink>
-                </li>
+              <nav className={styles.sidebar_nav}>
+                <ul>
+                  <li>
+                    <NavLink to="/admin/member" className={`${styles.nav_item} ${styles.active}`}>
+                      회원 관리
+                    </NavLink>
+                  </li>
 
-                <li>
-                  <NavLink to="/admin/noticejoin" className={linkClass}>
-                    공지 등록
-                  </NavLink>
-                </li>
-              </ul>
+                  <li>
+                    <NavLink to="/admin/noticejoin" className={styles.nav_item}>
+                      공지 등록
+                    </NavLink>
+                  </li>
+
+                  <li>
+                    <NavLink to="/admin/surveymanagement" className={styles.nav_item}>
+                      평가 관리
+                    </NavLink>
+                  </li>
+                </ul>
+              </nav>
             </aside>
 
             {/* 관리자 컨텐츠 */}
             <section className={styles.admin_content} style={{ display: "flex", flexDirection: "column" }}>
-              <Link to="/" className={styles.transbtn}>
+              <button type="button" className={styles.transBtn} onClick={() => navigate('/')}>
                 사용자 전환
-              </Link>
+              </button>
               {children}
             </section>
           </div> : children}

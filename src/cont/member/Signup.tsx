@@ -1,8 +1,9 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface MemberForm {
+  id: string;
   email: string;
   pwd1: string;
   pwd2: string;
@@ -11,10 +12,12 @@ interface MemberForm {
   phone: string;
   storeCode: string;
   addr: string;
+  authority: string;
 }
 
 const Signup: React.FC = () => {
   const [form, setForm] = useState<MemberForm>({
+    id: '',
     email: '',
     pwd1: '',
     pwd2: '',
@@ -23,13 +26,18 @@ const Signup: React.FC = () => {
     phone: '',
     storeCode: '',
     addr: '',
+    authority: 'MEMBER'
   });
-
+  const [isIdChecked, setIsIdChecked] = useState(false);
   const [code, setCode] = useState('');
   const [idMessage, setIdMessage] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [nickMessage, setNickMessage] = useState('');
+  const [isNickChecked, setIsNickChecked] = useState(false);
+
+
 
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -39,50 +47,91 @@ const Signup: React.FC = () => {
   const [agreements, setAgreements] = useState<string[]>([]);
 
   const navigate = useNavigate();
-  const urls = "http://192.168.0.19/myictstudy";
+  const urls = process.env.REACT_APP_BACK_END_URL;
+  console.log("BACKEND URL =", urls);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
+    // 아이디 중복확인 , 상태 초기화
+    if (name === 'id') {
+      setIsIdChecked(false);
+      setIdMessage('');
+    }
+
+    //  이메일 인증 상태 초기화
     if (name === 'email') {
       setIsEmailChecked(false);
       setIsEmailVerified(false);
-      setIdMessage('');
       setEmailMessage('');
     }
   };
 
-  // 이메일 중복 확인
+  // 아이디 중복 확인 
   const idCheck = async () => {
+    if (!form.id) {
+      alert('아이디를 입력해주세요.');
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${urls}/api/auth/idCheck`,
+        { id: form.id }
+      );
+
+      if (res.data === 0) {
+        alert('사용 가능한 아이디입니다.');
+        setIdMessage('사용 가능한 아이디입니다.');
+        setIsIdChecked(true);
+      } else {
+        alert('이미 사용 중인 아이디입니다.');
+        setIdMessage('이미 사용 중인 아이디입니다.');
+        setIsIdChecked(false);
+      }
+    } catch (error: any) {
+      console.log(error);
+      alert("아이디 중복 확인 오류 (404/500)");
+    }
+  };
+
+  // 이메일 중복 확인 
+  const emailDuplicateCheck = async () => {
     if (!form.email) {
       alert('이메일을 입력해주세요.');
       return;
     }
     try {
-      const res = await axios.post(`${urls}/api/auth/idCheck`, {
-        email: form.email,
-      });
+      const res = await axios.get(
+        `${urls}/api/member/emailCheck`,
+        {
+          params: {
+            email: form.email
+          }
+        }
+      );
       if (res.data === 0) {
         alert('사용 가능한 이메일입니다.');
-        setIdMessage('사용 가능한 이메일입니다.');
+        setEmailMessage('사용 가능한 이메일입니다.');
         setIsEmailChecked(true);
       } else {
-        setIdMessage('이미 사용 중인 이메일입니다.');
+        setEmailMessage('이미 사용 중인 이메일입니다.');
         setIsEmailChecked(false);
       }
-    } catch (error) {
-      alert('중복 확인 오류');
-      console.error(error);
+    } catch (error: any) {
+      console.log(error);
+      alert("이메일 중복 확인 오류");
     }
   };
 
   // 이메일 인증 요청
   const emailCheck = async () => {
-    if (!isEmailChecked) {
-      alert('먼저 이메일 중복 확인을 해주세요.');
+    // 아이디 중복확인 여부 체크
+    if (!isIdChecked) {
+      alert('먼저 아이디 중복 확인을 완료해 주세요.');
       return;
     }
+
     try {
       const res = await axios.post(`${urls}/api/auth/emailCheck`, {
         email: form.email,
@@ -92,10 +141,11 @@ const Signup: React.FC = () => {
         setEmailMessage('인증 번호가 발송되었습니다.');
         setIsEmailVerified(false);
       } else {
-        setEmailMessage('이미 사용 중인 이메일 입니다.');
+        alert('이미 가입된 이메일입니다.');
+        setEmailMessage('이미 사용 중인 이메일입니다.');
       }
     } catch (error) {
-      alert('이메일 인증 오류');
+      alert('이메일 인증 오류가 발생했습니다.');
       console.error(error);
     }
   };
@@ -125,6 +175,37 @@ const Signup: React.FC = () => {
       console.error(err);
     }
   };
+  // 닉네임 입력 시 실시간 중복 체크
+  useEffect(() => {
+    // 닉네임이 비어있으면 메시지 초기화
+    if (!form.nick.trim()) {
+      setNickMessage('');
+      setIsNickChecked(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await axios.post(`${urls}/api/auth/nickCheck`, {
+          nick: form.nick,
+        });
+
+        if (res.data === 0) {
+          setNickMessage('사용 가능한 닉네임입니다.');
+          setIsNickChecked(true);
+        } else {
+          setNickMessage('이미 사용 중인 닉네임입니다.');
+          setIsNickChecked(false);
+        }
+      } catch (error) {
+        console.error('닉네임 중복 체크 오류:', error);
+        setNickMessage('닉네임 중복 확인 중 오류 발생');
+        setIsNickChecked(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [form.nick, urls]);
 
   //전체 동의 체크박스 핸들러
   const handleAllAgreementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,7 +229,7 @@ const Signup: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!isEmailChecked) {
+    if (!isIdChecked) {
       alert('이메일 중복 확인을 완료해주세요.');
       return;
     }
@@ -160,7 +241,10 @@ const Signup: React.FC = () => {
       alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
       return;
     }
-
+    if (!isNickChecked) {
+      alert('닉네임을 올바르게 입력해 주세요.');
+      return;
+    }
     const hasTerms = agreements.includes('terms');
     const hasPrivacy = agreements.includes('privacy');
     if (!hasTerms || !hasPrivacy) {
@@ -169,20 +253,23 @@ const Signup: React.FC = () => {
     }
 
     try {
-      const res = await axios.post(`${urls}/api/auth/signup`, {
-        email: form.email,
+      const res = await axios.post(`${urls}/api/member/signup`, {
+        id: form.id,
         pwd: form.pwd1,
-        nick: form.nick,
         name: form.name,
-        phone: form.phone,
-        storeCode: form.storeCode,
-        addr: form.addr,
+        nick: form.nick,
+        email: form.email,
+        mphone: form.phone,
+        storecode: form.storeCode,
+        storeaddr: form.addr,
+        logintype: "LOCAL",
+        authority: form.authority,
         marketingAgree: agreements.includes('marketing') ? 'Y' : 'N'
       });
 
       if (res.status === 200 || res.data.success) {
         alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
-        navigate('/login');
+        navigate('/user/login');
       }
     } catch (error) {
       alert('회원가입 처리 중 오류가 발생했습니다.');
@@ -197,14 +284,30 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{ maxWidth: '650px' }}>
       <form onSubmit={handleSubmit} className="p-4 bg-light border rounded">
         <h2 className="text-center mb-4">회원가입</h2>
-
+        {/* id */}
+        <div className="mb-3 row align-items-center">
+          <label className="col-sm-3 col-form-label fw-bold">아이디</label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              name="id"
+              className="form-control"
+              value={form.id}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-sm-3">
+            <button type="button" className="btn btn-outline-primary w-100" onClick={idCheck} disabled={isIdChecked}>중복확인</button>
+          </div>
+        </div>
         {/* 이메일 */}
         <div className="mb-3 row align-items-center">
           <label htmlFor="email" className="col-sm-3 col-form-label fw-bold">이메일</label>
-          <div className="col-sm-5">
+          <div className="col-sm-6">
             <input
               type="email"
               name="email"
@@ -215,20 +318,17 @@ const Signup: React.FC = () => {
               required
             />
           </div>
-          <div className="col-sm-2">
-            <button type="button" className="btn btn-outline-primary w-100" onClick={idCheck} disabled={isEmailChecked}>중복확인</button>
+          <div className="col-sm-3">
+            <button type="button" className="btn btn-outline-primary w-100" onClick={emailCheck} disabled={isEmailVerified}>인증요청</button>
           </div>
-          <div className="col-sm-2">
-            <button type="button" className="btn btn-outline-secondary w-100" onClick={emailCheck} disabled={!isEmailChecked || isEmailVerified}>인증요청</button>
-          </div>
-          {idMessage && <div className="col-12 text-info small mt-1 ps-3">{idMessage}</div>}
+          {/* {idMessage && <div className="col-12 text-info small mt-1 ps-3">{idMessage}</div>} */}
           {emailMessage && <div className="col-12 text-success small mt-1 ps-3">{emailMessage}</div>}
         </div>
 
         {/* 인증번호 */}
         <div className="mb-3 row">
           <label htmlFor="code" className="col-sm-3 col-form-label fw-bold">이메일 인증번호</label>
-          <div className="col-sm-7">
+          <div className="col-sm-6">
             <input
               type="text"
               id="code"
@@ -238,8 +338,8 @@ const Signup: React.FC = () => {
               disabled={isEmailVerified}
             />
           </div>
-          <div className="col-sm-2">
-            <button type="button" className="btn btn-outline-success w-100" onClick={checkEmailCode} disabled={isEmailVerified}>확인</button>
+          <div className="col-sm-3">
+            <button type="button" className="btn btn-outline-primary w-100" onClick={checkEmailCode} disabled={isEmailVerified}>확인</button>
           </div>
         </div>
 
@@ -291,6 +391,11 @@ const Signup: React.FC = () => {
               onChange={handleChange}
               required
             />
+            {nickMessage && (
+              <p style={{ color: isNickChecked ? 'green' : 'red', fontSize: '13px' }}>
+                {nickMessage}
+              </p>
+            )}
           </div>
         </div>
         {/* 전화번호 입력란 */}
@@ -300,26 +405,41 @@ const Signup: React.FC = () => {
             <input type="text" name="phone" className="form-control" placeholder="010-0000-0000" value={form.phone} onChange={handleChange} required />
           </div>
         </div>
+        {/* 권한 선택 */}
+        <div className="mb-3 row">
+          <label className="col-sm-3 col-form-label fw-bold">
+            가입 유형
+          </label>
+          <div className="col-sm-9 d-flex gap-4 align-items-center">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" name="authority" value="MEMBER"checked={form.authority === 'MEMBER'}
+                onChange={handleChange}/>
+              <label className="form-check-label">
+                일반회원
+              </label>
+            </div>
+            <div className="form-check">
+              <input className="form-check-input" type="radio" name="authority" value="ADMIN"
+                checked={form.authority === 'ADMIN'} onChange={handleChange}/>
+              <label className="form-check-label">
+                관리자
+              </label>
+            </div>
+          </div>
+        </div>
         {/* 매장 코드 입력란 */}
         <div className="mb-3 row">
           <label htmlFor="storeCode" className="col-sm-3 col-form-label fw-bold">매장 코드</label>
           <div className="col-sm-9">
-            <input type="text" name="storeCode" className="form-control" placeholder="가맹점 인증 코드를 입력하세요" value={form.storeCode} onChange={handleChange} required />
+            <input type="text" name="storeCode" className="form-control" placeholder="가맹점 인증 코드를 입력하세요" value={form.storeCode} onChange={handleChange} required={form.authority === 'MEMBER'} />
           </div>
         </div>
         {/* 주소 입력란 */}
         <div className="mb-3 row">
           <label htmlFor="addr" className="col-sm-3 col-form-label fw-bold">주소</label>
           <div className="col-sm-9">
-            <input
-              type="text"
-              name="addr"
-              className="form-control"
-              placeholder="도로명 주소를 입력하세요"
-              value={form.addr}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="addr" className="form-control" placeholder="도로명 주소를 입력하세요"
+              value={form.addr} onChange={handleChange} required={form.authority === 'MEMBER'}/>
           </div>
         </div>
         {/* 약관동의  */}
