@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DaumPostcode, { Address } from 'react-daum-postcode';   // npm install react-daum-postcode 설치하면 됨
 import { QRCodeSVG } from 'qrcode.react';   // npm install qrcode.react 설치하면 됨
 import axios from 'axios';
+import { useAuth } from '../../comp/AuthProvider';
 
 interface ProfileForm {
     id: string;
@@ -23,12 +24,12 @@ interface ProfileForm {
 
 const ProfileEditPage = () => {
     const navigate = useNavigate();
+    const { member } = useAuth();
     const BACK_URL = process.env.REACT_APP_BACK_END_URL;
 
     const [loading, setLoading] = useState(true);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
-    // 닉네임 수정 상태 관리
     const [isEditingNick, setIsEditingNick] = useState(false);
     const [tempNick, setTempNick] = useState('');
 
@@ -49,7 +50,7 @@ const ProfileEditPage = () => {
         regdate: ''
     });
 
-    // 임의의 영어+숫자 조합 지점코드 생성 함수 (예: ST-8F92A0X1)
+   
     const generateRandomStoreCode = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = 'ST-';
@@ -59,7 +60,7 @@ const ProfileEditPage = () => {
         return code;
     };
 
-  useEffect(() => {
+useEffect(() => {
 
     const fetchProfile = async () => {
 
@@ -68,31 +69,30 @@ const ProfileEditPage = () => {
             const response = await axios.get(
                 `${BACK_URL}/api/member/mypage`,
                 {
-                    withCredentials:true
+                    params:{
+                        id: member?.id
+                    }
                 }
             );
 
-
-            const member = response.data;
-
+            const data = response.data;
 
             setForm({
-                id: member.id,
-                nick: member.nick,
-                name: member.name,
-                grade: member.grade,
-                storecode: member.storecode,
-                storeaddr: member.storeaddr,
+                id:data.id,
+                nick:data.nick,
+                name:data.name,
+                grade:data.grade,
+                storecode:data.storecode ?? '',
+                storeaddr:data.storeaddr ?? '',
                 storeaddrDetail:'',
                 phoneFirst:'010',
                 phoneMiddle:'',
                 phoneLast:'',
-                email:member.email,
+                email:data.email,
                 smsAgree:false,
                 emailAgree:false,
-                regdate:member.regdate
+                regdate:data.regdate
             });
-
 
         } catch(error){
 
@@ -100,15 +100,19 @@ const ProfileEditPage = () => {
             alert("회원정보 조회 실패");
 
         } finally {
+
             setLoading(false);
+
         }
 
     };
 
 
-    fetchProfile();
+    if(member?.id){
+        fetchProfile();
+    }
 
-},[]);
+},[member]);
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -192,7 +196,7 @@ const ProfileEditPage = () => {
     };
 
     const handleSubmit = async (
-        event: React.FormEvent<HTMLFormElement>,
+        event: React.SubmitEvent,
     ) => {
         event.preventDefault();
 
