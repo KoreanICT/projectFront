@@ -30,6 +30,7 @@ import Form2 from "../cont/management/Form2";
 import InquireForm from '../cont/inquiry/InquireForm'
 import NoticeB from '../cont/notice/NoticeB'
 import NoticeJoin from '../cont/notice/NoticeJoin'
+import InquiryDetail from '../cont/inquiry/InquireDetail'
 
 // 라우터란?
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
@@ -85,7 +86,9 @@ const AppRoutes: React.FC = () => {
         { path: '/inquiry', element: <InquireList/>},
         { path: '/Inquirecomm', element: <Inquirecomm/>},
         { path: '/InquireForm', element: <InquireForm/>},
-        { path: '/InquireDetail', element: <InquireDetail/>},
+        // { path: '/InquireDetail', element: <InquireDetail/>},
+        {path:"/inquiry/detail/:num", element:<InquiryDetail/>},
+
 
 
 

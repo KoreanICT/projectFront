@@ -11,7 +11,7 @@ interface InquireVO {
     imgn?: string;
     idate?: string;
     membernum : number;
-    mfile: File | null;
+    mfile?: File | null;
 }
 const backendUrl = process.env.REACT_APP_BACK_END_URL;
 
@@ -21,7 +21,8 @@ const InquireForm: React.FC = () => {
         iwriter: '',
         icontent: '',
         membernum:1,
-        mfile: null as File | null
+        mfile: null
+        // mfile: null as File | null
     })
     const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
     const navigate = useNavigate();
@@ -50,13 +51,14 @@ const InquireForm: React.FC = () => {
     }
     const myFormSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
-        alert("정상적으로 등록처리 되었습니다.");
 
         const data = new FormData();
         data.append('ititle', formData.ititle);
         data.append('iwriter', formData.iwriter);
         data.append('icontent', formData.icontent);
         data.append('membernum', formData.membernum.toString());
+        console.log(formData.mfile);
+        
         if (formData.mfile) {
             data.append('mfile', formData.mfile);
             console.log(`FormData 전송 시 name이 필수!  Title => ${formData.ititle}, 
@@ -67,6 +69,7 @@ const InquireForm: React.FC = () => {
                 await axios.post(url, data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
+                alert("정상적으로 등록처리 되었습니다.");
 
 
                 //오류가 없으면 리스트로 이동 

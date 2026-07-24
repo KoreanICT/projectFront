@@ -8,7 +8,8 @@ interface InquiryVO {
     ititle: string;
     iwriter: string;
     icontent: string;
-    imgn: string;   
+    imgn: string;
+    membernum: number;
     idate: string;
 }
 
@@ -31,10 +32,19 @@ const InquireList: React.FC = () => {
     //http://192.168.0.195/myictstudy/imgfile/
     const imageBasePath = `${backendUrl}/imgfile/`;
 
+
+    // currentPage 상태가 바뀔 때마다 스크롤을 맨 위로 올림
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }, [currentPage]);
+
     const fetchInquiryList = async (page: number) => {
         try {
             console.log(backendUrl);
-            const urls = `${backendUrl}/inquiry/inquireList`;
+            const urls = `${backendUrl}/api/inquiry/inquiryList`;
             const response = await axios.get(urls, {
                 params: {
                     cPage: page,
@@ -80,13 +90,13 @@ const InquireList: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     {
                         inquiryList.map((item) => (
                             <tr key={item.inum}>
                                 <td>{item.inum}</td>
                                 <td>
-                                    <Link to={`/inquiry/inquiredetail/${item.inum}`}
+                                    <Link to={`/inquiry/detail/${item.inum}`}
                                         className={styles.titleLink}
                                     >{item.ititle}</Link>
                                 </td>
@@ -96,7 +106,7 @@ const InquireList: React.FC = () => {
                                         alt={item.ititle} style={{ width: '80px', height: 'auto' }}
                                     />) : ("No Image")}
                                 </td>
-                                
+
                                 <td>{item.idate}</td>
                             </tr>
                         ))
