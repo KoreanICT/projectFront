@@ -50,7 +50,7 @@ const ProfileEditPage = () => {
         regdate: ''
     });
 
-   
+
     const generateRandomStoreCode = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = 'ST-';
@@ -60,59 +60,59 @@ const ProfileEditPage = () => {
         return code;
     };
 
-useEffect(() => {
+    useEffect(() => {
 
-    const fetchProfile = async () => {
+        const fetchProfile = async () => {
 
-        try {
+            try {
 
-            const response = await axios.get(
-                `${BACK_URL}/api/member/mypage`,
-                {
-                    params:{
-                        id: member?.id
+                const response = await axios.get(
+                    `${BACK_URL}/api/member/mypage`,
+                    {
+                        params: {
+                            id: member?.id
+                        }
                     }
-                }
-            );
+                );
 
-            const data = response.data;
+                const data = response.data;
 
-            setForm({
-                id:data.id,
-                nick:data.nick,
-                name:data.name,
-                grade:data.grade,
-                storecode:data.storecode ?? '',
-                storeaddr:data.storeaddr ?? '',
-                storeaddrDetail:'',
-                phoneFirst:'010',
-                phoneMiddle:'',
-                phoneLast:'',
-                email:data.email,
-                smsAgree:false,
-                emailAgree:false,
-                regdate:data.regdate
-            });
+                setForm({
+                    id: data.id,
+                    nick: data.nick,
+                    name: data.name,
+                    grade: data.grade,
+                    storecode: data.storecode ?? '',
+                    storeaddr: data.storeaddr ?? '',
+                    storeaddrDetail: '',
+                    phoneFirst: '010',
+                    phoneMiddle: '',
+                    phoneLast: '',
+                    email: data.email,
+                    smsAgree: false,
+                    emailAgree: false,
+                    regdate: data.regdate
+                });
 
-        } catch(error){
+            } catch (error) {
 
-            console.error(error);
-            alert("회원정보 조회 실패");
+                console.error(error);
+                alert("회원정보 조회 실패");
 
-        } finally {
+            } finally {
 
-            setLoading(false);
+                setLoading(false);
 
+            }
+
+        };
+
+
+        if (member?.id) {
+            fetchProfile();
         }
 
-    };
-
-
-    if(member?.id){
-        fetchProfile();
-    }
-
-},[member]);
+    }, [member]);
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -210,23 +210,24 @@ useEffect(() => {
             return;
         }
 
-        const fullStoreAddress = form.storeaddrDetail 
+        const fullStoreAddress = form.storeaddrDetail
             ? `${form.storeaddr} ${form.storeaddrDetail.trim()}`
             : form.storeaddr;
 
-        const requestData = {
+        const requestData = await axios.post(`${BACK_URL}/api/member/update`, {
+            id: form.id,
             nick: form.nick,
-            storecode: form.storecode,
-            storeaddr: fullStoreAddress,
-            phone: [
+            mphone: [
                 form.phoneFirst,
                 form.phoneMiddle,
                 form.phoneLast,
             ].join('-'),
             email: form.email.trim(),
+            storecode: form.storecode,
+            storeaddr: fullStoreAddress,
             smsAgree: form.smsAgree ? 'Y' : 'N',
             emailAgree: form.emailAgree ? 'Y' : 'N',
-        };
+        });
 
         try {
             console.log('회원정보 수정 요청:', requestData);
@@ -240,7 +241,26 @@ useEffect(() => {
     const handleCancel = () => {
         navigate(-1);
     };
-
+    const handleWithdraw = async () => {
+        if (!window.confirm("정말 탈퇴하시겠습니까?")) {
+            return;
+        }
+        try {
+            const res = await axios.delete(
+                `${BACK_URL}/api/member/withdraw`,
+                {
+                    params: {
+                        num: member?.mnum
+                    }
+                }
+            );
+            alert("회원 탈퇴가 완료되었습니다.");
+            navigate("/");
+        } catch (error) {
+            console.error("탈퇴 실패", error);
+            alert("회원 탈퇴 처리 중 오류가 발생했습니다.");
+        }
+    };
     if (loading) {
         return (
             <div
@@ -404,16 +424,16 @@ useEffect(() => {
                                                     <span className="font-monospace fw-bold fs-5 text-dark">
                                                         {form.storecode}
                                                     </span>
-                                                    
+
                                                     {form.storecode && (
-                                                        <div 
+                                                        <div
                                                             className="p-1 bg-white border rounded d-inline-flex align-items-center justify-content-center shadow-sm"
                                                             title={`QR 코드: ${form.storecode}`}
                                                         >
-                                                            <QRCodeSVG 
-                                                                value={form.storecode} 
-                                                                size={42} 
-                                                                level="M" 
+                                                            <QRCodeSVG
+                                                                value={form.storecode}
+                                                                size={42}
+                                                                level="M"
                                                             />
                                                         </div>
                                                     )}
@@ -617,7 +637,8 @@ useEffect(() => {
                                     </div>
                                 </section>
 
-                                <div className="d-flex justify-content-center gap-2 pt-3 border-top">
+                                <div className="d-flex align-items-center pt-3 border-top">
+
                                     <button
                                         type="button"
                                         onClick={handleCancel}
@@ -626,12 +647,36 @@ useEffect(() => {
                                         취소
                                     </button>
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary px-5"
-                                    >
-                                        저장하기
-                                    </button>
+
+                                    <div className="ms-auto d-flex align-items-center gap-3">
+
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary px-5"
+                                        >
+                                            저장하기
+                                        </button>
+
+
+                                        <span
+                                            onClick={handleWithdraw}
+                                            style={{
+                                                cursor: "pointer",
+                                                color: "#6c757d",
+                                                fontSize: "14px"
+                                            }}
+                                            onMouseEnter={(e) =>
+                                                e.currentTarget.style.color = "#dc3545"
+                                            }
+                                            onMouseLeave={(e) =>
+                                                e.currentTarget.style.color = "#6c757d"
+                                            }
+                                        >
+                                            회원탈퇴
+                                        </span>
+
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
