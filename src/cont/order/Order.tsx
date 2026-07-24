@@ -7,6 +7,7 @@ import axios from 'axios';
 
 //발주테이블, 서명을 이미지로 받을 컬럼 수정해야함 지금 없음
 export interface OrderForm {
+  dfnum?:number;
   mnum: string;
   oname: string;
   oaddr: string;
@@ -17,6 +18,7 @@ export interface OrderForm {
 }
 
 interface OrderItem {
+  oinum?:number;
   oiname: string;
   oiprice: number;
   oiamount: number;
