@@ -8,7 +8,6 @@ interface MemberVO {
   nick: string;
   email: string;
   mphone: string;
-  storecode: number;
   storeaddr: string;
   grade: string;
   authority: string;
@@ -33,6 +32,8 @@ const Members: React.FC = () => {
 
   // 선택된 회원의 mnum
   const [checkedMembers, setCheckedMembers] = useState<number[]>([]);
+
+  const [grade, setGrade] = useState("");
 
 
   const fetchMemberList = async (page: number) => {
@@ -69,21 +70,36 @@ const Members: React.FC = () => {
     fetchMemberList(1);
   }
 
-  // 선택한 회원 삭제
-  const deleteMembers = async () => {
+  const updateGrade = async () => {
 
     if (checkedMembers.length === 0) {
-      alert("삭제할 회원을 선택하세요.");
+      alert("회원을 선택하세요.");
       return;
     }
 
-    await axios.put(
-      `${backendUrl}/api/member/deleteMembers`,
-      checkedMembers
-    );
+    if (grade === "") {
+      alert("변경할 등급을 선택하세요.");
+      return;
+    }
 
-    fetchMemberList(currentPage);
-  }
+    try {
+      await axios.put(
+        `${backendUrl}/api/member/updateGrade`,
+        {
+          memberNums: checkedMembers,
+          grade: grade
+        }
+      );
+
+      alert("등급이 변경되었습니다.");
+
+      setCheckedMembers([]);
+      fetchMemberList(currentPage);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className={styles.memberContainer}>
@@ -124,7 +140,15 @@ const Members: React.FC = () => {
               <td>{member.name}</td>
               <td>{member.email}</td>
               <td>{member.nick}</td>
-              <td>{member.grade}</td>
+              <td>
+                {member.grade === "REGULAR"
+                  ? "일반회원"
+                  : member.grade === "VIP"
+                    ? "우수회원"
+                    : member.grade === "WITHDRAWN"
+                      ? "탈퇴회원"
+                      : member.grade}
+              </td>
               <td>{member.authority}</td>
             </tr>
           ))}
@@ -160,10 +184,22 @@ const Members: React.FC = () => {
       </table>
 
 
-      {/* 선택한 회원 탈퇴 버튼 */}
-      <button onClick={deleteMembers}>
-        일괄탈퇴
-      </button>
+      {/* 선택한 회원 등급 변경 */}
+      <div style={{ marginTop: "20px" }}>
+        <select
+          value={grade}
+          onChange={(e) => setGrade(e.target.value)}
+        >
+          <option value="">등급 선택</option>
+          <option value="REGULAR">일반회원</option>
+          <option value="VIP">VIP</option>
+          <option value="WITHDRAWN">탈퇴</option>
+        </select>
+
+        <button onClick={updateGrade}>
+          선택 회원 등급 변경
+        </button>
+      </div>
 
     </div>
   );
