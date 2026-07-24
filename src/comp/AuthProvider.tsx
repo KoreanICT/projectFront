@@ -1,9 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 interface Member {
-  id?: string; //////
+  mnum: number;
+  id?: string;
   name: string;
   email: string;
+  nick?: string;
+  authority?: string;
+  grade?: string;
+  storecode?: string;
+  storeaddr?: string;
+  mphone?: string;
 }
 
 interface AuthContextProps {

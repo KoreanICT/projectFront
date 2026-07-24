@@ -13,6 +13,8 @@ const Home = () => {
 
   console.log("현재 회원:", member);
   console.log("로그인 여부:", isLoggedIn);
+  console.log(member?.authority);
+  
   const banners = [
     {
       id: 1,

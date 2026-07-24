@@ -26,7 +26,7 @@ const Signup: React.FC = () => {
     phone: '',
     storeCode: '',
     addr: '',
-    authority: ''
+    authority: 'MEMBER'
   });
   const [isIdChecked, setIsIdChecked] = useState(false);
   const [code, setCode] = useState('');
