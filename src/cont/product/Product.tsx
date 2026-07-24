@@ -99,7 +99,9 @@ const Product: React.FC = () => {
         }
     }
 
+    // productItem조립을 위한 함수
     const addItem = () => {
+        //조립된 데이터
         const inputRowList = {
             piname: piname,
             piisbn: piisbn,
@@ -109,8 +111,10 @@ const Product: React.FC = () => {
             piunitCost: piunitCost
         }
 
+        //조립된 데이터를 기존 데이터에 스프레드 연산
         setProductItem([...productItem, inputRowList]);
 
+        //데이터 초기화(기본값)
         setPiname("");
         setPiisbn("");
         setPiprice(0);
