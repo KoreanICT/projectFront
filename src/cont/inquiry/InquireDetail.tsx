@@ -4,12 +4,13 @@ import { Link, useParams } from 'react-router-dom';
 import styles from './Inquire.module.css'
 import Inquirecomm from './Inquirecomm';
 
+const backendUrl = process.env.REACT_APP_BACK_END_URL;
 const InquireDetail: React.FC = () => {
 
 
     return (
         <div className={styles.container}>
-            <h1>상세보기 예제</h1>
+            <h1>상세보기</h1>
             <table className={styles.boardTable}>
                 <tbody>
                     <tr>

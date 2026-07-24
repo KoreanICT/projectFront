@@ -3,24 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const Inquirecomm: React.FC = () => {
-    
+    const backendUrl = process.env.REACT_APP_BACK_END_URL;
     const nav = useNavigate();
 
     const upForm = (e:React.SubmitEvent) => {
         e.preventDefault();
-        alert("작성완료!");
+        alert("작성이 완료되었습니다.");
         //값을 데이터베이스에 전공할수있는 함수
-
-
         nav("/inquiry");
     }
 
-    /*
-        const list1 = [1,2.3.4.5.6]
-
-    
-    1*/ 
-    
   return (
     <div className='mt-4'>
         <h4>Comments</h4>
@@ -39,10 +31,6 @@ const Inquirecomm: React.FC = () => {
         </form>
         {/* 댓글 리스트  */}
         <ul className='list-group'>
-           <li>n번댓글</li>
-           <li>n번댓글</li>
-           <li>n번댓글</li>
-           <li>n번댓글</li>
            <li>n번댓글</li>
         </ul>
     </div>
