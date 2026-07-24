@@ -6,37 +6,42 @@ import style from "./surveyUpdate.module.css"
 const SurveyUpdate: React.FC = () => {
 
     const [sub, setSub] = useState("");
-    const [code, setCode] = useState("2"); //최소 항목 2개
+    const [code, setCode] = useState("2"); //최소 항목 2개, 2개로 code를 초기화해둔다.
     const [surveyQuestions, setSurveyQuestions] = useState<string[]>(Array(2).fill(""));
+    //question이 들어있는 빈 문자열의 배열을 만들어두고 크기를 2로 설정한다.
 
     const navigate = useNavigate();
 
     const backendUrl = process.env.REACT_APP_BACK_END_URL;
     const surveyCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value;
-        const numValue = parseInt(newValue);
+        const newValue = e.target.value;//code를 바꾸었을때 newValue라는 값에 넣어둔다.
+        const numValue = parseInt(newValue);//newValue는 문자열 형식으로 되어있으므로 정수형으로 바꾸어준다.
         //code가 3이면 setSurveyTitles=["항목1","항목2","항목3"]
         // 최소 2 ~ 최대 5 항목만 처리
         if(numValue >= 2 && numValue <= 5) {
         //useState에 code , title을 저장
-            setCode(newValue);
+            setCode(newValue);//바꾼 code를 다시 setCode를 통해 넣어둔다.
             setSurveyQuestions(prev => {
-                const newArray = Array(numValue).fill("");
+                const newArray = Array(numValue).fill("");//numValue만큼의 크기의 빈 문자열로 되어있는 배열을 만든다.
                 return newArray.map((item, index) => prev[index] || "");
+                //만든 배열의 요소를 하나씩 순화하면서 새로운 요소값으로 교체.
+                //prev[index]는 같은 인덱스 위치에 기존에 작성해둔 질문이 있는지 확인하고, 이후
+                //||의 논리 or 연산자를 통해 기존 질문(prev[index])가 존재하면 그 내용을 그대로 유지하고,
+                //없거나 undefined인 경우 빈 문자열("")로 채움.
             })
         }
     };
     // 위에서 code에 의해서 항목이  ["","",""] => ["항목내용1","항목내용2","항목내용3"]
-    const surveyTitleChange = (index: number, value: string) => {
-        const newTitles = [...surveyQuestions];
-        newTitles[index] = value;
-        setSurveyQuestions(newTitles);
+    const surveyQuestionChange = (index: number, value: string) => {
+        const newQuestions = [...surveyQuestions];
+        newQuestions[index] = value;
+        setSurveyQuestions(newQuestions);
     };
 
     const surveySubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
         try {
-            // 전송할 데이터 형식 만들어 놓기 , sub, code ,surveyTitle.map
+            // JSON으로 객체를 전송할 데이터 형식 만들어 놓기 , sub, code ,surveyTitle.map
             const surveyData = {
                 sub,
                 code: parseInt(code),
@@ -45,16 +50,16 @@ const SurveyUpdate: React.FC = () => {
                 }))
             };
             //postman에서 테스트 한 것처럼 구현 - axios.post방식
-            const response = await axios.post(`${backendUrl}/api/survey/insertsurvey`,surveyData);
+            const response = await axios.post(`${backendUrl}/api/survey/addSurvey`,surveyData);
             if(response.status === 200){
 
-                alert("수정 완료.");
+                alert("등록 완료.");
 
                 navigate("/admin/surveymanagement");
             }
         } catch (error) {
             console.error("Error :",error);
-            alert("수정 실패.");
+            alert("등록 실패.");
         }
     };
     return (
@@ -95,7 +100,7 @@ const SurveyUpdate: React.FC = () => {
                                 <input
                                     type="text"
                                     value={question}
-                                    onChange={(e) => surveyTitleChange(index, e.target.value)}
+                                    onChange={(e) => surveyQuestionChange(index, e.target.value)}
                                     required
                                 />
                         </li>
@@ -103,7 +108,7 @@ const SurveyUpdate: React.FC = () => {
                     </ul>
                 </div>
             <div className="card-footer bg-light p-3 text-center border-0 d-flex gap-2 justify-content-center">
-                <button type="submit" className="btn btn-primary fw-bold px-4 py-2">수정완료</button>
+                <button type="submit" className="btn btn-primary fw-bold px-4 py-2">등록완료</button>
                 <button type="button" className="btn btn-primary fw-bold px-4 py-2" onClick={()=> navigate("/admin/surveymanagement")}>취소</button>
             </div>
         </div>

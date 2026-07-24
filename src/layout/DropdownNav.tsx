@@ -45,21 +45,16 @@ const DropdownNav: React.FC = () => {
                     발주관리
                 </NavLink>
             </div>
-            <div className={style.navItem}>
-                <NavLink to="/sal" className={linkClass}>판매관리</NavLink>
-            </div>
+          <div className={style.navItem}>
+            <NavLink to="/product" className={linkClass}>
+            판매관리
+            </NavLink>
+          </div>
 
             {/* 5. 커뮤니티 */}
             <div className={style.navItem}>
                 <NavLink to="/community" className={linkClass}>
                     커뮤니티
-                </NavLink>
-            </div>
-
-            {/* 6. 마이페이지 */}
-            <div className={style.navItem}>
-                <NavLink to="/mypage" className={linkClass}>
-                    마이페이지
                 </NavLink>
             </div>
         </nav>

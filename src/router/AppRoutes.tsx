@@ -12,7 +12,6 @@ import Revenue from '../cont/revenue/Revenue'
 import Login from '../cont/member/Login'
 import Signup from '../cont/member/Signup'
 
-import Sal from '../cont/product/Product'
 import UpCommunityForm from '../cont/community/UpCommunityForm'
 
 import Inquirecomm from '../cont/inquiry/Inquirecomm'
@@ -35,9 +34,10 @@ import ProfileEditPage from '../cont/mypage/profileeditpage'
 import SurveyAddForm from '../cont/survey/SurveyAddForm'
 import SurveyManagement from '../cont/survey/SurveyManagement'
 import SurveyUpdate from '../cont/survey/SurveyUpdate'
+import Product from '../cont/product/Product'
 
 
-// 라우터란?
+// 라우터란
 // 사용자가 입력한 주소를 감지하는 역할을 하며, 
 // 여러 환경에서 동작할 수 있도록 여러 종유의 라우터 컴포넌트를 제공
 // 라우터 기본 구성
@@ -71,17 +71,17 @@ const AppRoutes: React.FC = () => {
         {path: "/",element: <Home />,},
         { path: "/management", element: <Form /> },
         { path: "/management/form", element: <Form /> },
-         { path: "/management/list", element: <List /> },
+        { path: "/management/list", element: <List /> },
         { path: "/management/detail/:bookId", element: <Detail /> },
         { path: "/management/form2/:bookId", element: <Form2 /> },
         
         { path: '/member', element: <Member />},
+        { path: '/product', element: <Product/>},
         // { path: '/notice', element: <Notice />},
         { path: '/order', element: <Order />},
         { path: '/user/login', element: <Login/>},
         { path: '/user/signup', element: <Signup />},
         { path: '/revenue', element: <Revenue/>},
-      
         { path: '/community', element: <Community/>},
         {path: '/notice', element: <NoticeB />},
         {path: '/admin/noticejoin', element: <NoticeJoin />},

@@ -1,21 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 interface Member {
-  userid: string;
+  id: string;
   name: string;
   email: string;
 }
 
 interface AuthContextProps {
   member: Member | null;
-  checkLogin: () => Promise<void>; 
+  checkLogin: () => Promise<void>;
   isLoggedIn: boolean; //로그인 여부를 true / false
 
-  login: (userid: string, password: string) => Promise<'success' | 'fail' | 'error'>;
-  logout: () => Promise<void>; 
-  updateMemberName: (name: string) => void; 
+  login: (id: string, password: string) => Promise<'success' | 'fail' | 'error'>;
+  logout: () => Promise<void>;
+  updateMemberName: (name: string) => void;
   updateMemberEmail: (email: string) => void;
-  loading: boolean;  
+  loading: boolean;
 }
 // 1단계: Context 생성
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       console.log(res.data);
       console.log(res.data.mnum);
-      if (res.data?.userid) {
+      if (res.data?.id) {
         setMember(res.data); // 로그인 된 정보를 받아서 useState에 저장한다.
       } else {
         setMember(null); //로그인 상태가 아니라면 useState를 초기화 
@@ -52,24 +52,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const login = async (userid: string, password: string): Promise<'success' | 'fail' | 'error'> => {
-    try {
-      const res = await axios.post(
-        `${backendUrl}/api/login/dologin`,
-        { userid, password }, { withCredentials: true }
-      );
-      alert(res.data);
-      if (res.data === 'success') {
-        await checkLogin(); // 로그인 성공 후 세션 정보 불러오기
-        return 'success';
-      } else {
-        return 'fail';
+ const login = async (id: string, password: string): Promise<'success' | 'fail' | 'error'> => {
+  try {
+    const res = await axios.post(
+      `${backendUrl}/api/login/dologin`,
+      {
+        email: id,
+        pwd: password
+      },
+      {
+        withCredentials: true
       }
-    } catch {
-      return 'error';
-    }
-  };
+    );
 
+    console.log(res.data);
+
+    if (res.data === 'success') {
+      await checkLogin();
+      return 'success';
+    } else {
+      return 'fail';
+    }
+  } catch {
+    return 'error';
+  }
+};
   const logout = async () => {
     await axios.get(`${backendUrl}/api/login/dologout`, {
       withCredentials: true
@@ -77,11 +84,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setMember(null);
   };
   useEffect(() => {
-
-    if (window.location.pathname !== '/login') {
-      checkLogin();
-    } else {
+    const path = window.location.pathname;
+    if (path === '/user/login') {
       setLoading(false);
+    } else {
+      checkLogin();
     }
 
   }, []);
