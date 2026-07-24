@@ -24,7 +24,7 @@ interface ProfileForm {
 
 const ProfileEditPage = () => {
     const navigate = useNavigate();
-    const { member } = useAuth();
+    const { member, logout } = useAuth();
     const BACK_URL = process.env.REACT_APP_BACK_END_URL;
 
     const [loading, setLoading] = useState(true);
@@ -245,8 +245,9 @@ const ProfileEditPage = () => {
         if (!window.confirm("정말 탈퇴하시겠습니까?")) {
             return;
         }
+
         try {
-            const res = await axios.delete(
+            await axios.delete(
                 `${BACK_URL}/api/member/withdraw`,
                 {
                     params: {
@@ -254,7 +255,11 @@ const ProfileEditPage = () => {
                     }
                 }
             );
+
+            await logout();   // 세션 제거 + member=null
+
             alert("회원 탈퇴가 완료되었습니다.");
+
             navigate("/");
         } catch (error) {
             console.error("탈퇴 실패", error);
