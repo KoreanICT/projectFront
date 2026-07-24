@@ -59,7 +59,7 @@ export default function Signature({ order }: SignatureProps) {
                 formData.append('order', JSON.stringify(order));
             }
             // 백엔드로 전송 (Axios나 fetch 사용)
-            const res = await fetch('/api/order', {
+            const res = await fetch('/api/order/orderForm', {
                 method: 'POST',
                 body: formData, // Multipart FormData 전송
             });
