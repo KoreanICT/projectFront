@@ -12,6 +12,7 @@ interface MemberForm {
   phone: string;
   storeCode: string;
   addr: string;
+  authority: string;
 }
 
 const Signup: React.FC = () => {
@@ -25,6 +26,7 @@ const Signup: React.FC = () => {
     phone: '',
     storeCode: '',
     addr: '',
+    authority: ''
   });
   const [isIdChecked, setIsIdChecked] = useState(false);
   const [code, setCode] = useState('');
@@ -261,7 +263,7 @@ const Signup: React.FC = () => {
         storecode: form.storeCode,
         storeaddr: form.addr,
         logintype: "LOCAL",
-        authority: "MEMBER",
+        authority: form.authority,
         marketingAgree: agreements.includes('marketing') ? 'Y' : 'N'
       });
 
@@ -403,26 +405,41 @@ const Signup: React.FC = () => {
             <input type="text" name="phone" className="form-control" placeholder="010-0000-0000" value={form.phone} onChange={handleChange} required />
           </div>
         </div>
+        {/* 권한 선택 */}
+        <div className="mb-3 row">
+          <label className="col-sm-3 col-form-label fw-bold">
+            가입 유형
+          </label>
+          <div className="col-sm-9 d-flex gap-4 align-items-center">
+            <div className="form-check">
+              <input className="form-check-input" type="radio" name="authority" value="MEMBER"checked={form.authority === 'MEMBER'}
+                onChange={handleChange}/>
+              <label className="form-check-label">
+                일반회원
+              </label>
+            </div>
+            <div className="form-check">
+              <input className="form-check-input" type="radio" name="authority" value="ADMIN"
+                checked={form.authority === 'ADMIN'} onChange={handleChange}/>
+              <label className="form-check-label">
+                관리자
+              </label>
+            </div>
+          </div>
+        </div>
         {/* 매장 코드 입력란 */}
         <div className="mb-3 row">
           <label htmlFor="storeCode" className="col-sm-3 col-form-label fw-bold">매장 코드</label>
           <div className="col-sm-9">
-            <input type="text" name="storeCode" className="form-control" placeholder="가맹점 인증 코드를 입력하세요" value={form.storeCode} onChange={handleChange} required />
+            <input type="text" name="storeCode" className="form-control" placeholder="가맹점 인증 코드를 입력하세요" value={form.storeCode} onChange={handleChange} required={form.authority === 'MEMBER'} />
           </div>
         </div>
         {/* 주소 입력란 */}
         <div className="mb-3 row">
           <label htmlFor="addr" className="col-sm-3 col-form-label fw-bold">주소</label>
           <div className="col-sm-9">
-            <input
-              type="text"
-              name="addr"
-              className="form-control"
-              placeholder="도로명 주소를 입력하세요"
-              value={form.addr}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="addr" className="form-control" placeholder="도로명 주소를 입력하세요"
+              value={form.addr} onChange={handleChange} required={form.authority === 'MEMBER'}/>
           </div>
         </div>
         {/* 약관동의  */}
