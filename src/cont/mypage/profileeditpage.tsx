@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DaumPostcode, { Address } from 'react-daum-postcode';   // npm install react-daum-postcode 설치하면 됨
 import { QRCodeSVG } from 'qrcode.react';   // npm install qrcode.react 설치하면 됨
+import axios from 'axios';
+import { useAuth } from '../../comp/AuthProvider';
 
 interface ProfileForm {
     id: string;
@@ -22,11 +24,12 @@ interface ProfileForm {
 
 const ProfileEditPage = () => {
     const navigate = useNavigate();
+    const { member } = useAuth();
+    const BACK_URL = process.env.REACT_APP_BACK_END_URL;
 
     const [loading, setLoading] = useState(true);
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
-    // 닉네임 수정 상태 관리
     const [isEditingNick, setIsEditingNick] = useState(false);
     const [tempNick, setTempNick] = useState('');
 
@@ -47,7 +50,7 @@ const ProfileEditPage = () => {
         regdate: ''
     });
 
-    // 임의의 영어+숫자 조합 지점코드 생성 함수 (예: ST-8F92A0X1)
+   
     const generateRandomStoreCode = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = 'ST-';
@@ -57,38 +60,59 @@ const ProfileEditPage = () => {
         return code;
     };
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                // TODO: 실제 회원정보 조회 API로 교체
-                const profile: ProfileForm = {
-                    id: 'pkwed1206',
-                    nick: '테스형',
-                    name: '홍길동',
-                    grade: 'A등급',
-                    storecode: generateRandomStoreCode(),
-                    storeaddr: '서울 마포구 백범로 35',
-                    storeaddrDetail: '3층 301호',
-                    phoneFirst: '010',
-                    phoneMiddle: '4532',
-                    phoneLast: '9516',
-                    email: 'pkwed1206@gmail.com',
-                    smsAgree: true,
-                    emailAgree: true,
-                    regdate: '2026-04-15'
-                };
+useEffect(() => {
 
-                setForm(profile);
-            } catch (error) {
-                console.error('회원정보 조회 실패:', error);
-                alert('회원정보를 불러오지 못했습니다.');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchProfile = async () => {
 
+        try {
+
+            const response = await axios.get(
+                `${BACK_URL}/api/member/mypage`,
+                {
+                    params:{
+                        id: member?.id
+                    }
+                }
+            );
+
+            const data = response.data;
+
+            setForm({
+                id:data.id,
+                nick:data.nick,
+                name:data.name,
+                grade:data.grade,
+                storecode:data.storecode ?? '',
+                storeaddr:data.storeaddr ?? '',
+                storeaddrDetail:'',
+                phoneFirst:'010',
+                phoneMiddle:'',
+                phoneLast:'',
+                email:data.email,
+                smsAgree:false,
+                emailAgree:false,
+                regdate:data.regdate
+            });
+
+        } catch(error){
+
+            console.error(error);
+            alert("회원정보 조회 실패");
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+
+    if(member?.id){
         fetchProfile();
-    }, []);
+    }
+
+},[member]);
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -172,7 +196,7 @@ const ProfileEditPage = () => {
     };
 
     const handleSubmit = async (
-        event: React.FormEvent<HTMLFormElement>,
+        event: React.SubmitEvent,
     ) => {
         event.preventDefault();
 
